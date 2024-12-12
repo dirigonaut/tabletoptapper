@@ -36,11 +36,11 @@ This is where the main meat and potatoes of the application begins. It is equiva
 
 Operation Logic:
 - run:
-    - Make sure only one loop can be running at a time
-    - Get the process from the stack
-    - Get the next rule from the process
-    - Setting itself to a Waiting state 
-    - Call next on the rule and await the current rule's > step's promise to resolve
+  - Make sure only one loop can be running at a time
+  - Get the process from the stack
+  - Get the next rule from the process
+  - Setting itself to a Waiting state 
+  - Call next on the rule and await the current rule's > step's promise to resolve
 		    - If the promise is rejected 
           - And it is an error then log the error and halt the program
           - Else it is a Process interupt that will spawn a new Process that once finished will resume the parent process where it left off
