@@ -16,18 +16,51 @@ TableTopTapper is a language framework built on top of javascript to write table
 At a certain point I kind of had to ask myself, what was I doing creating a programming language to write a game? It was a very interesting exercise and I learned a lot. I do not regret it, but I found myself spending more time making the engine than actually making the game. Why did I cut myself off from the built in debugging tools by creating another abstraction layer on top of javascript? In general it did not lend itself well to a growing scope creep for going fast.
 
 ## Architecture
+### UML
 ![UML](uml.jpg "uml")
 
 This is basically a programming language that has as stack with multiple Processes(threads) that have Rules(functions) with Steps(lines of code). All the systems are connected together using events and promises, such that each step that is evented awaits until the underlying system resolves it's promise and stores it's results. Processes can interupt other processes to run a section of logic before resuming the parent process, and can even edit the data in the parent process to change behavior. This latter behavior is primarily handled by the Context>Audience>Listener domain, which is a glorified event listener with multiple levels allowing a scoping of events as well as toggles allowing event logic to be turned on/off as needed. Beyond the data stores most of the other objects are functions for performing an operation that each Step would call.
 
+### Language Syntax
+#### Structure
+```
+rule_id: [
+	["passed", "in", "args"],
+	{
+		"id": 		"variable_name", 
+		"action": "action_id",
+		"args": 	["args", "for", "action"]
+	}
+]
+```
+
+The language follows a json structure where a function is a array of collections. If the first item in the array is an array that is the collection of variables that are epxected to be passed in. The variables passed in will be mapped to the names provided in the order they are passed in. If the function doesn't need any passed in variables then this can be omitted, but it must be the first item if it is included. All other entries are dictionaries which are the specific steps to run. Each one includes fields: id(the variable name), action(the operation to run), and args(the data needed to run the operation).
+
+#### Variables
+Variables(aka the results of a step) can be referenced by the id they were assigned and surrounded by <>
+```	
+rule_1: [
+	{"id": "var_1", 	"action": "resolve", 		"args": [1]},
+	{"id": "roll_p", 	"action": "log", 				"args": ["variable var_1 == <var_1>"]},
+],
+```
+
+There is also a special dot notation where if the variable is a complex data object then internal data can be resolved to by pathing to the data with keys/indexes delimioted by ".".
+```	
+rule_2: [
+	{"id": "var_1", 	"action": "resolve", 		"args": [{"entry": [1]}]},
+	{"id": "roll_p", 	"action": "log", 				"args": ["variable var_1 contains an entry with value: <var_1.entry.0>"]},
+],
+```
+
 ## Entry Point
 [Entry Point](js/entry_point.js)
 
-This is the start of the program. 
-	- Here we wire up all the events from their objects and classes to the publisher which is how all the systems communicate. 
-	- The profile has all the state systems wired up such that on save/load the state can be pushed/pulled from the indexdb and inflated/deflated.
-	- All the operations each utility object is capable of is wired up such that the object it belongs to can be reverse look-up'ed for eventing
-	- The game loop is wired up to the start button to trigger the loop to begin
+This is the start of the program:
+ - Here we wire up all the events from their objects and classes to the publisher which is how all the systems communicate. 
+ - The profile has all the state systems wired up such that on save/load the state can be pushed/pulled from the indexdb and inflated/deflated.
+ - All the operations each utility object is capable of is wired up such that the object it belongs to can be reverse look-up'ed for eventing
+ - The game loop is wired up to the start button to trigger the loop to begin
 
 ## Game Loop
 [Game Loop](js/game_engine/game_loop.js)
