@@ -6,6 +6,8 @@
  - [Entry Point](#entry-point)
  - [Game Loop](#game-loop)
  - [Stack](#stack)
+ - [Process](#process)
+ - [Rule](#rule)
 
 ## Overview
 
@@ -158,7 +160,28 @@ Operation Logic:
 		- The main dangers of procedural loops in this language are:
 			- Create infinite loop
 			- As the steps are looped over their values can be changed thus creating a scenario that is hard to determine the result
+	- EX: ``` {"id": "rolls", "action": "goto", "args": ["id.add_rolls.prev"]} ```
 
+## Process
+[Process](js/game_engine/stack/stack.js)
+
+This is the languages equivalent to a thread. It is it's own stack if FILO queued Rules. This was needed as if I wanted to interupt a running rule multiple times to say edit a variable I did not want to have to keep track of the changing index. Then there is also the what if you have a process_3 thread that cancels another process_2 thread while leaving a process_1 thread alone. It was just easier to keep them scoped to their own "threads" allowing for simpler creation/destruction of the queues of logic (aka Process).
+
+All the operations for Process are hidden underneath the Stack object actions as such they do not specific example language lines. They have some basic CRUD operations like get, insert, cancel, remove. The main internal logic though is managing it's own state for determining when the process is finished.
+
+Operation Logic:
+- constructor:
+	- Stores it's parent process idx and its own process idx 
+	- Wires up a listener for the game_loop.processed event
+- on_processed:
+	- Is a callback function wrapper that triggers when the game_loop.processed event fires and if it has an internal state of Waiting. There should only ever be one Waiting process at any given time as that is the one being looped over by the game_loop.
+	- It will handle managing its queue of rules removing them as they finish and thus progressing until its queue of rules is empty
+	- Once empty it will set its state to Finished thus allowing the stack to remove it next time it is looking for the current process.
+- get_rule:
+  - Is what gets the next rule in the process FILO queue and sets the state to Waiting which is what allows rules to be consumed from the process queue
+
+## Rule 
+[Rule](js/game_engine/stack/rule.js)
 
 ## License
 MIT NON-AI License
