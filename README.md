@@ -36,7 +36,7 @@ This is where the main meat and potatoes of the application begins. It is equiva
 
 Operation Logic:
  - run:
- -- Make sure only one loop can be running at a time
+  - Make sure only one loop can be running at a time
  -- Get the process from the stack
  -- Get the next rule from the process
  -- Setting itself to a Waiting state 
