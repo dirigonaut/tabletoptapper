@@ -40,8 +40,8 @@ The language follows a json structure where a function is a array of collections
 Variables(aka the results of a step) can be referenced by the id they were assigned and surrounded by <>
 ```	
 rule_1: [
-	{"id": "var_1", 	"action": "resolve", 		"args": [1]},
-	{"id": "roll_p", 	"action": "log", 				"args": ["variable var_1 == <var_1>"]},
+	{"id": "var_1", "action": "resolve", "args": [1]},
+	{"id": "roll_p", "action": "log", "args": ["variable var_1 == <var_1>"]},
 ],
 ```
 
