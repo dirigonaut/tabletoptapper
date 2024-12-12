@@ -49,10 +49,10 @@ Operation Logic:
         - Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
 		- Once it has run out of Process>Rules>Steps to perform
         - Update the state to Finished
-		- Trigger a save of all the state if the state has changed
-		- Set the state to None
-		- Emit game_loop.finished (which the heap is wired up to, triggering it to purge the heap)
-		- Then reset the game_loop back to the default action starting the process all over again
+  - Trigger a save of all the state if the state has changed
+  - Set the state to None
+  - Emit game_loop.finished (which the heap is wired up to, triggering it to purge the heap)
+  - Then reset the game_loop back to the default action starting the process all over again
 
 ## Stack
 [Stack](js/game_engine/stack.js)
