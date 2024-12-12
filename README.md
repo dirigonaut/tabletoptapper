@@ -81,9 +81,8 @@ Operation Logic:
     - It will call a rule for every entry in a collection passed to it
     - The keyword ```$idx$``` will be resolved to the element value at each pass as it loops through the collection calling the rule with it
     - Other hardcoded values or variables can be passed in as well
-		- EX: ``` 
-		{"id": "skills", "action": "loop", "args": ["character.attributes.stats.get.total", "<keys>", ["<party>", "<char_idx>", "$idx$", null]]}
-		```
+		- EX: ```
+		{"id": "skills", "action": "loop", "args": ["character.attributes.stats.get.total", "<keys>", ["<party>", "<char_idx>", "$idx$", null]]}```
 
 ## License
 MIT NON-AI License
