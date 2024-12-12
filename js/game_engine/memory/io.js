@@ -320,11 +320,11 @@ const io = Object({
 
 		let key = `+${_path.shift()}`;
 		if (!(_node[key] ?? false)) {
-			if (_attribute.value ?? false) { 					// If the branch does not exist on write then create an empty object and continue
+			if (_attribute.value ?? false) { // If the branch does not exist on write then create an empty object and continue
 				_node[key] = {}; 
 			} else if (_attribute.cascade ?? false) { // If the branch does not exist on delete then error
 				throw new Error(`There is no child at key: ${key} to process a delete_t on.`)
-			} else {																	//  If the branch does not exist on read, return the results thus far
+			} else { //  If the branch does not exist on read, return the results thus far
 				return; 
 			} 
 		}
@@ -344,7 +344,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return attribute.results.at(-1);
@@ -356,7 +356,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return attribute.results;
@@ -367,7 +367,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return _value;
@@ -378,7 +378,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return true;

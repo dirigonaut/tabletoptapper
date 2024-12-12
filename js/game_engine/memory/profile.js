@@ -34,7 +34,7 @@ const profile = ({
 	initialize: function(_name, _version=0, _state=null) {
 		this.name 		= _name;
 		this.version 	= _version;
-		this.id 			= `${this.name}-${this.version}`;
+		this.id 		= `${this.name}-${this.version}`;
 		
 		if (_state) {
 			let state = JSON.parse(_state);
@@ -44,9 +44,9 @@ const profile = ({
 	},
 
 	save_data: async function() {
-		if (this.name == undefined) 		{ throw new Error("profile.name must be set before save_data can be called.") };
+		if (this.name == undefined) 	{ throw new Error("profile.name must be set before save_data can be called.") };
 		if (this.version == undefined) 	{ throw new Error("profile.version must be set before save_data can be called.") };
-		if (this.is_delta == false) 		{ return; }
+		if (this.is_delta == false) 	{ return; }
 
 		this.version += 1;
 		let data = this.dict();
@@ -94,10 +94,10 @@ const profile = ({
 
 	dict: function() {
 		return {
-			"id": 			`${this.name}-${this.version}`,
-			"name": 		this.name,
+			"id": 		`${this.name}-${this.version}`,
+			"name": 	this.name,
 			"version":	this.version,
-			"state": 		{},
+			"state": 	{},
 		}
 	}
 });

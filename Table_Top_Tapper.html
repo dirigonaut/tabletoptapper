@@ -5568,9 +5568,9 @@ const logger = Object({
 	},
 
 	error:	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Error,	_caller, _text, _args, _pretty, _template_id) },
-	warn: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Warn,		_caller, _text, _args, _pretty, _template_id) },
-	func: 	function(_caller, _text, _args=null, _pretty=false, _template_id="func") 	 	{ this._main(Level_Enum.Func, 	_caller, _text, _args, _pretty, _template_id) },
-	log: 		function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Log,		_caller, _text, _args, _pretty, _template_id) },
+	warn: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Warn,	_caller, _text, _args, _pretty, _template_id) },
+	func: 	function(_caller, _text, _args=null, _pretty=false, _template_id="func") 	 { this._main(Level_Enum.Func, 	_caller, _text, _args, _pretty, _template_id) },
+	log: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Log,	_caller, _text, _args, _pretty, _template_id) },
 	debug: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Debug,	_caller, _text, _args, _pretty, _template_id) },
 });
 </script>
@@ -5855,7 +5855,7 @@ const profile = ({
 	initialize: function(_name, _version=0, _state=null) {
 		this.name 		= _name;
 		this.version 	= _version;
-		this.id 			= `${this.name}-${this.version}`;
+		this.id 		= `${this.name}-${this.version}`;
 		
 		if (_state) {
 			let state = JSON.parse(_state);
@@ -5865,9 +5865,9 @@ const profile = ({
 	},
 
 	save_data: async function() {
-		if (this.name == undefined) 		{ throw new Error("profile.name must be set before save_data can be called.") };
+		if (this.name == undefined) 	{ throw new Error("profile.name must be set before save_data can be called.") };
 		if (this.version == undefined) 	{ throw new Error("profile.version must be set before save_data can be called.") };
-		if (this.is_delta == false) 		{ return; }
+		if (this.is_delta == false) 	{ return; }
 
 		this.version += 1;
 		let data = this.dict();
@@ -5915,10 +5915,10 @@ const profile = ({
 
 	dict: function() {
 		return {
-			"id": 			`${this.name}-${this.version}`,
-			"name": 		this.name,
+			"id": 		`${this.name}-${this.version}`,
+			"name": 	this.name,
 			"version":	this.version,
-			"state": 		{},
+			"state": 	{},
 		}
 	}
 });
@@ -5943,12 +5943,12 @@ class Vector {
 		"==":		function(_x, _y) 	{ return _x == _y; },
 		"!=":		function(_x, _y) 	{ return _x != _y; },
 		"is":		function(_x, _y) 	{ return (arguments.length == 1) ? (_x): (_y); },
-		"isnt":	function(_x, _y) 	{ return (arguments.length == 1) ? (!_x): (!_y); },
+		"isnt":		function(_x, _y) 	{ return (arguments.length == 1) ? (!_x): (!_y); },
 		".":		function(_x, _y) 	{ return _x[_y]; },
 		"~":		function(_x, _y) 	{ return new RegExp(_y).test(_x); },
-		"min":	function(_x, _y) 	{ return Math.min(_x, _y) },
-		"max":	function(_x, _y) 	{ return Math.max(_x, _y) },
-		"clmp":	function(_x, _y) 	{ return Math.min(Math.max(_x, _y.min), _y.max) },
+		"min":		function(_x, _y) 	{ return Math.min(_x, _y) },
+		"max":		function(_x, _y) 	{ return Math.max(_x, _y) },
+		"clmp":		function(_x, _y) 	{ return Math.min(Math.max(_x, _y.min), _y.max) },
 	};
 
 	static transform(_vector_1, _operation, _vector_2) {
@@ -6478,11 +6478,11 @@ const io = Object({
 
 		let key = `+${_path.shift()}`;
 		if (!(_node[key] ?? false)) {
-			if (_attribute.value ?? false) { 					// If the branch does not exist on write then create an empty object and continue
+			if (_attribute.value ?? false) { // If the branch does not exist on write then create an empty object and continue
 				_node[key] = {}; 
 			} else if (_attribute.cascade ?? false) { // If the branch does not exist on delete then error
 				throw new Error(`There is no child at key: ${key} to process a delete_t on.`)
-			} else {																	//  If the branch does not exist on read, return the results thus far
+			} else { //  If the branch does not exist on read, return the results thus far
 				return; 
 			} 
 		}
@@ -6502,7 +6502,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return attribute.results.at(-1);
@@ -6514,7 +6514,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return attribute.results;
@@ -6525,7 +6525,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return _value;
@@ -6536,7 +6536,7 @@ const io = Object({
 
 		let split_path 	= this.path_to_keys(_path);
 		let tree_path 	= split_path.pop()[0].split("+");
-		let root 				= this._recur(this.data_sets[_data_set].data, split_path);
+		let root 		= this._recur(this.data_sets[_data_set].data, split_path);
 
 		this._tree(root, tree_path, attribute);
 		return true;
@@ -7125,13 +7125,13 @@ class Process {
 
 <script>
 class Rule {
-	id 					= undefined;
+	id 				= undefined;
 	rule_idx		= undefined;
 
-	process_idx = undefined;
-	parent_idx	= undefined;
+	process_idx 	= undefined;
+	parent_idx		= undefined;
 
-	arguments 	= undefined;
+	arguments 		= undefined;
 	rule_args		= undefined;
 
 	steps 			= undefined;
@@ -7141,11 +7141,11 @@ class Rule {
 	result 			= undefined;
 	
 	constructor(_id, _steps, _rule_idx, _process_idx, _parent_idx) {
-		this.id 				= _id;
-		this.rule_idx 	= _rule_idx;
+		this.id 			= _id;
+		this.rule_idx 		= _rule_idx;
 
-		this.process_idx = _process_idx;
-		this.parent_idx  = _parent_idx;
+		this.process_idx 	= _process_idx;
+		this.parent_idx  	= _parent_idx;
 
 		this.arguments 		= (Array.isArray(_steps[0])) ? _steps.shift(): [];
 		this.rule_args		= Object.assign({
@@ -7153,11 +7153,11 @@ class Rule {
 			"parent_process": this.parent_idx
 		}, Object.fromEntries(this.arguments));
 
-		this.steps				= _steps.map((step) => new Step(this.rule_stack_id(), step));
+		this.steps			= _steps.map((step) => new Step(this.rule_stack_id(), step));
 		this.step_keys		= _steps.map((step) => step.id);
 		this.step_idx 		= 0
 
-		this.state 				= State.None;
+		this.state 			= State.None;
 	};
 
 	rule_stack_id = function() {
@@ -7318,12 +7318,12 @@ class Rule {
 
 	dict = function() {
 		return {
-			"id": 				this.id,
+			"id": 			this.id,
 			"rule_idx": 	this.rule_idx,
-			"steps": 			((this.arguments) ? [Object.entries(this.arguments)] : []) + this.steps.map((step) => step.dict()),
+			"steps": 		((this.arguments) ? [Object.entries(this.arguments)] : []) + this.steps.map((step) => step.dict()),
 			"step_idx":		this.step_idx,
-			"state": 			this.state,
-			"result":			this.result
+			"state": 		this.state,
+			"result":		this.result
 		}
 	};
 };
@@ -7335,19 +7335,19 @@ const step_regex = /(?<delimited><(?<root>[$\w]+)\.*(?<path>[$\.\w]+)*>)/g;
 
 class Step {
 	rule_id			= undefined;
-	id 					= undefined;
+	id 				= undefined;
 	action			= undefined;
 	template		= undefined;
 
-	args				= undefined;
+	args			= undefined;
 	result			= undefined;
-	state				= State.None;
+	state			= State.None;
 
 	process			= undefined;
 
 	constructor(_rule_id, _dict) {
 		this.rule_id	= _rule_id;
-		this.id				= _dict.id;
+		this.id			= _dict.id;
 		this.action		= _dict.action;
 		this.template	= Object.freeze(JSON.parse(JSON.stringify(_dict.args)));
 
@@ -7419,10 +7419,10 @@ class Step {
 	};
 
 	run = function(_step_results, _step_idx) {
-		if (State.Waiting == this.state) 					{ return this.process; }
+		if (State.Waiting == this.state) 			{ return this.process; }
 		else if (State.Finished == this.state) 		{ return Promise.resolve([`${this.rule_id}-${this.id}`, this.state]); }
 		else if (State.Skipped == this.state) 		{ return Promise.resolve([`${this.rule_id}-${this.id}`, this.state]); }
-		else if (State.Failed == this.state) 			{ return Promise.reject([`${this.rule_id}-${this.id}`, this.state]);  }
+		else if (State.Failed == this.state) 		{ return Promise.reject([`${this.rule_id}-${this.id}`, this.state]);  }
 	
 		return new Promise(function (_resolve, _reject) {//	--------------------------------------------------- Publish Action
 			try {
@@ -7542,12 +7542,12 @@ class Step {
 	dict = function() {
 		return {
 			"rule_id":	this.rule_id,
-			"id": 			this.id,
-			"action":		this.action,
+			"id": 		this.id,
+			"action":	this.action,
 			"template":	this.template,
-			"args": 		(typeof this.args == "object" && this.args != null) ? JSON.stringify(this.args) : this.args,
+			"args": 	(typeof this.args == "object" && this.args != null) ? JSON.stringify(this.args) : this.args,
 			"result": 	this.result,
-			"state": 		this.state,
+			"state": 	this.state,
 		}
 	};
 };
@@ -7557,7 +7557,7 @@ class Step {
 const Event_Key = "event";
 
 class Subscriber {
-	target 			= undefined;
+	target 		= undefined;
 	controller  = undefined;
 
 	constructor(_target, _event, _func) {
@@ -7802,15 +7802,15 @@ class Context {
 	};
 
 	context_id	= undefined;
-	audiences		= undefined;
+	audiences	= undefined;
 
-	filters	= undefined;
+	filters		= undefined;
 	regex		= undefined;
 	bound		= undefined;
 
 	default_target	= undefined;
-	bound_target		= undefined;
-	controllers			= undefined;
+	bound_target	= undefined;
+	controllers		= undefined;
 
 	constructor(_context_id, _filters=[], _audiences=[], _bound=[]) {
 		this.context_id 		= _context_id;
@@ -7818,12 +7818,12 @@ class Context {
 		let deserialize 		= function([_id, _a]) { return [_id, this.add_audience(...Audience.Dict_To_Args(_a))]; }.bind(this);
 		this.audiences			= Object.fromEntries(_audiences.map(deserialize));
 
-		this.filters				= _filters;
-		this.regex					= _filters.map((_f) => RegExp(_f) );
-		this.bound					= _bound;
+		this.filters			= _filters;
+		this.regex				= _filters.map((_f) => RegExp(_f) );
+		this.bound				= _bound;
 		this.controllers		= {};
 
-		this.default_target	= new EventTarget();
+		this.default_target		= new EventTarget();
 		this.bound_target		= new EventTarget();
 	};
 
@@ -7995,18 +7995,18 @@ class Audience {
 	}
 
 	audience_id 	= undefined;
-	events 				= undefined;
+	events 			= undefined;
 
 	start_regex 	= undefined;
 	stop_regex		= undefined;
 	delete_regex	= undefined;
 
-	state					= undefined;
-	listeners			= undefined;
+	state			= undefined;
+	listeners		= undefined;
 
-	target				= undefined;
+	target			= undefined;
 	controller		= undefined;
-	options				= undefined;
+	options			= undefined;
 	destructor		= undefined;
 
 	constructor(_audience_id, _events, _listeners=[], _state=State.None) {
@@ -8014,30 +8014,30 @@ class Audience {
 
 		this.audience_id 	= _audience_id;
 		
-		this.events				= _events;
+		this.events			= _events;
 		this.start_regex 	= (_events["start"]) 	? RegExp(_events["start"]) 	: undefined;
 		this.stop_regex 	= (_events["stop"]) 	? RegExp(_events["stop"]) 	: undefined;
-		this.delete_regex = (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
+		this.delete_regex 	= (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
 
 		this.listeners		= _listeners.map(deserialize);
-		this.listener_ids = Object.fromEntries(this.listeners.map((_idx, _l) => [_l.listener_id, -this.listeners.length + _idx]));
-		this.state				= _state;
+		this.listener_ids 	= Object.fromEntries(this.listeners.map((_idx, _l) => [_l.listener_id, -this.listeners.length + _idx]));
+		this.state			= _state;
 
-		this.target 			= new EventTarget();
+		this.target 		= new EventTarget();
 
 		if (this.state == State.Waiting) {
 			this.controller 	= new AbortController();
-			this.options			= { signal: this.controller.signal };
-			this.counter			= 0;
+			this.options		= { signal: this.controller.signal };
+			this.counter		= 0;
 		}
 	};
 
 	set_events = function(_events) {
-		this.events				= _events;
+		this.events			= _events;
 
 		this.start_regex 	= (_events["start"]) 	? RegExp(_events["start"]) 	: undefined;
 		this.stop_regex 	= (_events["stop"]) 	? RegExp(_events["stop"]) 	: undefined;
-		this.delete_regex = (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
+		this.delete_regex	= (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
 	};
 
 	register_listener = function(_listener) {
@@ -8140,10 +8140,10 @@ class Audience {
 				 if (this.start_regex && (this.start_regex.test(event_id))) {
 					logger.log("audience", `${this.audience_id} has found a match for the start event: ${this.start_regex}`);
 
-					this.state 				= State.Waiting;
+					this.state 			= State.Waiting;
 					this.controller 	= new AbortController();
-					this.options			= { signal: this.controller.signal };
-					this.counter 			= 0;
+					this.options		= { signal: this.controller.signal };
+					this.counter 		= 0;
 
 					for (let listener of this.listeners) {
 						listener.wire(this.target, this.options, this.deregister_listener.bind(this));
@@ -8166,9 +8166,9 @@ class Audience {
 	dict = function() {
 		return {
 			"audience_id":	this.audience_id,
-			"events":				this.events,
-			"listeners":		this.listeners.map((_l) => _l.dict()),
-			"state":				this.state,
+			"events":		this.events,
+			"listeners":	this.listeners.map((_l) => _l.dict()),
+			"state":		this.state,
 		}
 	};
 }
@@ -8188,29 +8188,29 @@ class Listener {
 	}
 
 	listener_id 	= undefined;
-	events				= undefined;
+	events			= undefined;
 
 	trigger_regex	= undefined;
 	delete_regex	= undefined;
 	reset_regex		= undefined;
 
-	limit					= undefined;
-	state					= undefined;
+	limit			= undefined;
+	state			= undefined;
 	destructor		= undefined;
 
 	constructor(_listener_id, _events, _limit="*", _state=State.None) {
 		this.set_events(_events);
 
 		this.listener_id 	= _listener_id;
-		this.limit				= (Array.isArray(_limit)) ? _limit : [0, _limit];
-		this.state				= _state;
+		this.limit			= (Array.isArray(_limit)) ? _limit : [0, _limit];
+		this.state			= _state;
 	};
 
 	set_events = function(_events) {
-		this.events					= _events;
+		this.events			= _events;
 		this.trigger_regex 	= (_events[Listener.Event.Trigger]) ? RegExp(_events[Listener.Event.Trigger][Listener.Action.Pattern])	: undefined;
 		this.delete_regex 	= (_events[Listener.Event.Delete]) 	? RegExp(_events[Listener.Event.Delete][Listener.Action.Pattern]) 	: undefined;
-		this.reset_regex 		= (_events[Listener.Event.Reset]) 	? RegExp(_events[Listener.Event.Reset][Listener.Action.Pattern]) 		: undefined;
+		this.reset_regex 	= (_events[Listener.Event.Reset]) 	? RegExp(_events[Listener.Event.Reset][Listener.Action.Pattern]) 		: undefined;
 	};
 
 	wire = function(_target, _options, _deregister_callback) {
@@ -8237,7 +8237,7 @@ class Listener {
 		return function(_event) {
 			let payload 	= publisher.get_payload_data(_event);
 			let event_id 	= payload[0];
-			let args 			= payload[1];
+			let args 		= payload[1];
 			let resolve 	= payload[2];
 
 			console.log(this.events)
@@ -8311,10 +8311,10 @@ class Listener {
 
 	dict = function() {
 		return {
-			"listener_id":this.listener_id,
+			"listener_id":	this.listener_id,
 			"events": 		this.events,
-			"limit":			this.limit,
-			"state":			this.state
+			"limit":		this.limit,
+			"state":		this.state
 		}
 	};
 }
@@ -9113,18 +9113,18 @@ function toggleFullScreen() {
 
 <script>
 // Wire up all the events to the publisher so that they can fire when called
-publisher.subscribe(new EventTarget(), "ops",				publisher.pass_through(ops));
-publisher.subscribe(new EventTarget(), "stack",			publisher.pass_through(stack));
-publisher.subscribe(new EventTarget(), "io", 				publisher.pass_through(io));
-publisher.subscribe(new EventTarget(), "heap", 			publisher.pass_through(heap));
-publisher.subscribe(new EventTarget(), "input",			publisher.pass_through(input));
-publisher.subscribe(new EventTarget(), "html", 			publisher.pass_through(html_factory));
+publisher.subscribe(new EventTarget(), "ops",		publisher.pass_through(ops));
+publisher.subscribe(new EventTarget(), "stack",		publisher.pass_through(stack));
+publisher.subscribe(new EventTarget(), "io", 		publisher.pass_through(io));
+publisher.subscribe(new EventTarget(), "heap", 		publisher.pass_through(heap));
+publisher.subscribe(new EventTarget(), "input",		publisher.pass_through(input));
+publisher.subscribe(new EventTarget(), "html", 		publisher.pass_through(html_factory));
 publisher.subscribe(new EventTarget(), "publisher", publisher.pass_through(publisher));
 publisher.subscribe(new EventTarget(), "game_loop", publisher.pass_through(game_loop));
 
-publisher.subscribe(new EventTarget(), "state", 		publisher.pass_through(heap, "on_state"));
-publisher.subscribe(new EventTarget(), "state", 		publisher.pass_through(map_controller));
-publisher.subscribe(new EventTarget(), "state", 		publisher.pass_through(profile.on_state.bind(profile)));
+publisher.subscribe(new EventTarget(), "state", 	publisher.pass_through(heap, "on_state"));
+publisher.subscribe(new EventTarget(), "state", 	publisher.pass_through(map_controller));
+publisher.subscribe(new EventTarget(), "state", 	publisher.pass_through(profile.on_state.bind(profile)));
 
 publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(io, "refresh_data_set"));
 publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(map_controller, "refresh"));
@@ -9132,16 +9132,16 @@ publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(map_co
 publisher.subscribe(new EventTarget(), "game_loop.finished", 	heap.purge.bind(heap));
 
 // Register the profile with all the state systems to save them to the indexdb
-profile.register("save_data", save_data.get.bind(save_data), save_data.set.bind(save_data));
+profile.register("save_data",		save_data.get.bind(save_data), save_data.set.bind(save_data));
 profile.register("heap", 			heap.get.bind(heap), heap.set.bind(heap));
-profile.register("publisher", publisher.get.bind(publisher), publisher.set.bind(publisher));
+profile.register("publisher",		publisher.get.bind(publisher), publisher.set.bind(publisher));
 
 // Wire up all the programmable actions across all the files
-ops.actions.reduce((acc, entry) 			=> 	{acc[`${entry}`] = "ops"; 				return acc}, Action_Targets);
-stack.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "stack"; 			return acc}, Action_Targets);
-io.actions.reduce((acc, entry) 				=> 	{acc[`${entry}`] = "io"; 					return acc}, Action_Targets);
-heap.actions.reduce((acc, entry) 			=> 	{acc[`${entry}`] = "heap"; 				return acc}, Action_Targets);
-input.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "input"; 			return acc}, Action_Targets);
+ops.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "ops"; 			return acc}, Action_Targets);
+stack.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "stack"; 		return acc}, Action_Targets);
+io.actions.reduce((acc, entry) 			=> 	{acc[`${entry}`] = "io"; 			return acc}, Action_Targets);
+heap.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "heap"; 			return acc}, Action_Targets);
+input.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "input"; 		return acc}, Action_Targets);
 game_loop.actions.reduce((acc, entry)	=> 	{acc[`${entry}`] = "game_loop"; 	return acc}, Action_Targets);
 publisher.actions.reduce((acc, entry)	=> 	{acc[`${entry}`] = "publisher"; 	return acc}, Action_Targets);
 

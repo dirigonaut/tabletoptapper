@@ -16,12 +16,12 @@ class Vector {
 		"==":		function(_x, _y) 	{ return _x == _y; },
 		"!=":		function(_x, _y) 	{ return _x != _y; },
 		"is":		function(_x, _y) 	{ return (arguments.length == 1) ? (_x): (_y); },
-		"isnt":	function(_x, _y) 	{ return (arguments.length == 1) ? (!_x): (!_y); },
+		"isnt":		function(_x, _y) 	{ return (arguments.length == 1) ? (!_x): (!_y); },
 		".":		function(_x, _y) 	{ return _x[_y]; },
 		"~":		function(_x, _y) 	{ return new RegExp(_y).test(_x); },
-		"min":	function(_x, _y) 	{ return Math.min(_x, _y) },
-		"max":	function(_x, _y) 	{ return Math.max(_x, _y) },
-		"clmp":	function(_x, _y) 	{ return Math.min(Math.max(_x, _y.min), _y.max) },
+		"min":		function(_x, _y) 	{ return Math.min(_x, _y) },
+		"max":		function(_x, _y) 	{ return Math.max(_x, _y) },
+		"clmp":		function(_x, _y) 	{ return Math.min(Math.max(_x, _y.min), _y.max) },
 	};
 
 	static transform(_vector_1, _operation, _vector_2) {
