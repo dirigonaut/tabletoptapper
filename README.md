@@ -46,9 +46,9 @@ Operation Logic:
       - Else it is a Process interupt that will spawn a new Process that once finished will resume the parent process where it left off
         - Finally it emits an event that says the game loop has processed completing the step operation
 		- Get the next process and the next rule(Which could be the same process and rule but at the next step)
-        - Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
+      - Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
 		- Once it has run out of Process>Rules>Steps to perform
-        - Update the state to Finished
+      - Update the state to Finished
   - Trigger a save of all the state if the state has changed
   - Set the state to None
   - Emit game_loop.finished (which the heap is wired up to, triggering it to purge the heap)
