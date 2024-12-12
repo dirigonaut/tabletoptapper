@@ -5,15 +5,15 @@ publisher.subscribe(new EventTarget(), "io", 		publisher.pass_through(io));
 publisher.subscribe(new EventTarget(), "heap", 		publisher.pass_through(heap));
 publisher.subscribe(new EventTarget(), "input",		publisher.pass_through(input));
 publisher.subscribe(new EventTarget(), "html", 		publisher.pass_through(html_factory));
-publisher.subscribe(new EventTarget(), "publisher", publisher.pass_through(publisher));
-publisher.subscribe(new EventTarget(), "game_loop", publisher.pass_through(game_loop));
+publisher.subscribe(new EventTarget(), "publisher",	publisher.pass_through(publisher));
+publisher.subscribe(new EventTarget(), "game_loop",	publisher.pass_through(game_loop));
 
 publisher.subscribe(new EventTarget(), "state", 	publisher.pass_through(heap, "on_state"));
 publisher.subscribe(new EventTarget(), "state", 	publisher.pass_through(map_controller));
 publisher.subscribe(new EventTarget(), "state", 	publisher.pass_through(profile.on_state.bind(profile)));
 
-publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(io, "refresh_data_set"));
-publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(map_controller, "refresh"));
+publisher.subscribe(new EventTarget(), "profile",	publisher.pass_through(io, "refresh_data_set"));
+publisher.subscribe(new EventTarget(), "profile",	publisher.pass_through(map_controller, "refresh"));
 
 publisher.subscribe(new EventTarget(), "game_loop.finished", 	heap.purge.bind(heap));
 
