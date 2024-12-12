@@ -88,7 +88,7 @@ Operation Logic:
   - Then reset the game_loop back to the default action starting the process all over again
 
 ## Stack
-[Stack](js/game_engine/stack.js)
+[Stack](js/game_engine/stack/stack.js)
 
 This is a FILO Queue of Processes(Threads) that has a variety of functionality to it. It has responsibility of maintaining the stack process pointers and manipulating the stack.
 
@@ -109,7 +109,7 @@ Operation Logic:
     - If either commands are null and their condition triggers then it just passes through
     - EX: ``` {"id": "die", "action": "branch", "args": [["<roll>", "<", 2], {"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, {"action":"resolve", "args":["<die>"]}]}```
 - loop:
-  - It is a looping function call
+  - It is a looping function call equivalent to python lambda functions or js anonymous function (aka functional looping) 
     - It will call a rule for every entry in a collection passed to it
     - The keyword ```$idx$``` will be resolved to the element value at each pass as it loops through the collection calling the rule with it
     - Other hardcoded values or variables can be passed in as well
@@ -131,9 +131,33 @@ Operation Logic:
 		- Aka: Returning values from a function
 	- EX: ``` {"id": "null", "action": "return", "args": ["<variable>"]} ```
 - step_result:
-
+	- This allows for the result of a step to be set manually.
+		- This is mostly for having a process edit the results of a step in process otherwise there is not a whole lot of point to it.
+		- It expects the process idx that it will affect
+		  - It will operate on the current Rule for that Process
+		- It expects the step index that it will be overriding
+	- EX: ``` {"id": "null", "action": "step_result", "args": ["<parent_process>", "<idx>", "<roll>"]} ```
 - var_sub:
+  - This is a special bit of functionality that allows a function call/args to be defined in a data file. Then when it is loaded this command can be run to fill in all the variables with ones that are available to it within the Rule's scope.
+		- It expects the process idx that the Rule exists in
+		- It expects a list of args that it is to inject the values into
+  - EX: ``` {"id": "e_args", "action": "var_sub", "args": [0, "<e_args>"]} ```
 - goto:
+  - This is the quintessential goto command which is incredibly powerful but also a bit dangerous as it technically can allow for infinite loops
+	- It accepts a dot notated string to try and make it less error prone
+		- The notation is "[id/action].value.[start/end/prev/next/]"
+			- The first value tells it to search by the id or action field
+			- The second value is either the action_id or the step_id
+			- The third value is where it should be searching from and towards.
+				- start: searches for the step from the start of the rule going forwards
+				- end: searches for the step from the end of the rule going backwards
+				- prev: searches for the step from the current step going backwards
+				- next: searches for the step from the current step going forwards
+			- EX: "id.step_id.next"
+	- This can be used in conjuction with branch to create ifelse statements and the classic procedural loops
+		- The main dangers of procedural loops in this language are:
+			- Create infinite loop
+			- As the steps are looped over their values can be changed thus creating a scenario that is hard to determine the result
 
 
 ## License
