@@ -35,24 +35,24 @@ This is the start of the program.
 This is where the main meat and potatoes of the application begins. It is equivalently the main logic handling, running each rule contained in a process. It also has a default action/rule that it will default to once it has cleared all operations.
 
 Operation Logic:
-	- run:
-			- Make sure only one loop can be running at a time
-			- Get the process from the stack
-			- Get the next rule from the process
-			- Setting itself to a Waiting state 
-			- Call next on the rule and await the current rule's > step's promise to resolve
-					- If the promise is rejected 
-							- And it is an error then log the error and halt the program
-							- Else it is a Process interupt that will spawn a new Process that once finished will resume the parent process where it left off
-					- Finally it emits an event that says the game loop has processed completing the step operation
-			- Get the next process and the next rule(Which could be the same process and rule but at the next step)
-					- Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
-			- Once it has run out of Process>Rules>Steps to perform
-					- Update the state to Finished
-			- Trigger a save of all the state if the state has changed
-			- Set the state to None
-			- Emit game_loop.finished (which the heap is wired up to, triggering it to purge the heap)
-			- Then reset the game_loop back to the default action starting the process all over again
+- run:
+    - Make sure only one loop can be running at a time
+    - Get the process from the stack
+    - Get the next rule from the process
+    - Setting itself to a Waiting state 
+    - Call next on the rule and await the current rule's > step's promise to resolve
+		    - If the promise is rejected 
+          - And it is an error then log the error and halt the program
+          - Else it is a Process interupt that will spawn a new Process that once finished will resume the parent process where it left off
+				- Finally it emits an event that says the game loop has processed completing the step operation
+		- Get the next process and the next rule(Which could be the same process and rule but at the next step)
+				- Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
+		- Once it has run out of Process>Rules>Steps to perform
+				- Update the state to Finished
+		- Trigger a save of all the state if the state has changed
+		- Set the state to None
+		- Emit game_loop.finished (which the heap is wired up to, triggering it to purge the heap)
+		- Then reset the game_loop back to the default action starting the process all over again
 
 ## Stack
 [Stack](js/game_engine/stack.js)
