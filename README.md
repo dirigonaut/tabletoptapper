@@ -27,9 +27,9 @@ This is basically a programming language that has as stack with multiple Process
 rule_id: [
 	["passed", "in", "args"],
 	{
-		"id": 		"variable_name", 
+		"id": "variable_name", 
 		"action": "action_id",
-		"args": 	["args", "for", "action"]
+		"args": ["args", "for", "action"]
 	}
 ]
 ```
