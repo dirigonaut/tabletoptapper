@@ -54,7 +54,8 @@ const rule_data = Object({
 				// Is there an encounter
 				{ "id": "combat_f", "action": "read", "args": ["game_d", "models.area.flags.contents.is_encounter"] },
 				{ "id": "null", "action": "branch", "args": [["<combat_f>", "&", "<area_f>"], null, { "action": "goto", "args": ["id.event_f.next"] }] },
-				{ "id": "null", "action": "write", "args": ["save_d", "context", "combat.actions"] },
+				// Combat Turned off
+				//{ "id": "null", "action": "write", "args": ["save_d", "context", "combat.actions"] }, 
 				{ "id": "null", "action": "return", "args": [] },
 				// Is there an event
 				{ "id": "event_f", "action": "read", "args": ["game_d", "models.area.flags.contents.is_event"] },
