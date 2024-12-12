@@ -35,8 +35,8 @@ This is the start of the program.
 This is where the main meat and potatoes of the application begins. It is equivalently the main logic handling, running each rule contained in a process. It also has a default action/rule that it will default to once it has cleared all operations.
 
 Operation Logic:
- - run:
-  - Make sure only one loop can be running at a time
+    - run:
+        - Make sure only one loop can be running at a time
  -- Get the process from the stack
  -- Get the next rule from the process
  -- Setting itself to a Waiting state 
