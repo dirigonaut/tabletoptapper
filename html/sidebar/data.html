@@ -1,0 +1,198 @@
+<script type="text/html" id="sidebar_data_template">
+	<div id="sidebar_head" class="tabs">
+		<button class="button" onclick="close_sidebar()"><div class="close-icon center-h"></div></button>
+		<button id="save_button" class="button"><p class="center-h capitalize">save</p></button>
+		<button id="game_button" class="button"><p class="center-h capitalize">game</p></button>
+		<button id="rule_button" class="button"><p class="center-h capitalize">rule</p></button>
+	</div>
+
+	<div id="sidebar_bread_crumbs" class="sidebar-bread-crumbs">
+	</div>
+
+	<div id="sidebar_body" class="sidebar-body">
+	</div>
+
+	<div id="sidebar_footer" class="tabs">
+		<button id="edit_data_sidebar"   class="button" draggable="true"><div class="edit-icon center-h"></div></button>
+		<button id="copy_data_sidebar"   class="button" draggable="true"><div class="clipboard-icon center-h"></div></button>
+		<button id="delete_data_sidebar" class="button" draggable="true"><div class="close-icon center-h"></div></button>
+	</div>
+</script>
+
+<script>
+	function get_sidebar_data_ref() {
+		return sidebar_data;
+	};
+
+	const sidebar_data = Object({
+		context: undefined,
+
+		initialize: function() {
+			Array.from(document.getElementById("sidebar_head").children).slice(1)
+				.forEach(_element => this.tab_buttons(_element));
+
+			Array.from(document.getElementById("sidebar_footer").children)
+				.forEach((child) => { 
+					child.addEventListener("dragstart", this.on_drag_start);
+					touch_drag(child);
+				});
+
+			this.wire_observer();
+		},
+
+		wire_observer: function(_observer=null) {
+			const target_node = document.getElementById("sidebar_body");
+			const config = { childList: true, subtree: true };
+			
+			if (_observer) {
+				_observer.observe(target_node, config);
+			} else {
+				const observer = new MutationObserver(this.on_dom_mutation.bind(this));
+				observer.observe(target_node, config);
+			}
+		},
+
+		on_dom_mutation: function(_records, _observer) {
+			for(let record of _records) {
+				if (record.addedNodes.length > 0) {
+					this.add_drop_handlers(record.addedNodes[0]);
+				}
+			}
+
+			_observer.takeRecords();
+			this.wire_observer(_observer);
+		},
+		
+		add_drop_handlers: function(_root_element) {
+			let keys = Array.from(_root_element.getElementsByClassName("key"));
+			let keywords = Array.from(_root_element.getElementsByClassName("keyword"));
+			let numbers = Array.from(_root_element.getElementsByClassName("number"));
+			let strings = Array.from(_root_element.getElementsByClassName("string"));
+			let arrays = Array.from(_root_element.querySelectorAll(".classname:is(.array):not(.syntax)"));
+			let objects = Array.from(_root_element.querySelectorAll(".classname:is(.object):not(.syntax)"));
+
+			//https://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
+			[].concat(keys, keywords, numbers, strings, arrays, objects)
+				.forEach((_ele) => {
+					_ele.addEventListener("dragover", 	this.on_drag_over); 
+					_ele.addEventListener("drop", 			this.on_drop.bind(this));
+				}
+			)
+		},
+
+		tab_buttons: function(_button) {
+			_button.addEventListener("click",	function(_event) {
+				let new_id = _event.currentTarget.id.split("_")[0];
+				let new_content = document.getElementById("sidebar_body");
+				while(new_content.firstChild) { new_content.removeChild(new_content.firstChild); };
+
+				this.context = `${new_id}_d`;
+				new_content.appendChild(
+					renderjson.set_icons('+', '-')
+										.set_show_to_level((`${new_id}_d` != "rule_d") ? 2 : 1)
+										.set_collapse_msg(function(len) { return len })
+										(io.data_sets[`${new_id}_d`]));
+			}.bind(this));
+		},
+
+		on_drag_start: function(_event) {
+			let target_action = _event.target.id.split("_")[0];
+
+			if (_event instanceof DragEvent) {
+				_event.dataTransfer.clearData();
+				_event.dataTransfer.setData("text", target_action);
+			} else if (_event instanceof CustomEvent) {
+				_event.detail.data = target_action;
+			}
+		},
+
+		on_drag_over: function(_event) {
+			_event.preventDefault();
+			_event.dataTransfer.dropEffect = "link";
+		},
+		
+		on_drop: function(_event) {
+			_event.preventDefault();
+			let action = (_event instanceof DragEvent) ? _event.dataTransfer.getData("text") : _event.detail.data;
+
+			let path = json_data_utils.get_path_from_tree(_event.target);
+			let value = io.read(this.context, path);
+			let is_value_object = (typeof value == "object");
+
+			let modal_id = `modal_${action}_${(is_value_object) ? "text_area" : "input"}`
+			open_modal(modal_id, null, null, path, (is_value_object) ? JSON.stringify(value, null, 1) : value);
+		},
+	})
+
+	const json_data_utils = Object({
+		get_path_from_tree: function(_target) {
+			let class_filter_primitive = ["string", "number"];
+			let class_filter_special = ["array", "object", "keyword"];
+			let target = _target;
+			let path = []
+			
+			while(target != null && !target.className.includes("renderjson")) {
+				if (target.className == "key") {
+					path.unshift(target.innerHTML);
+					
+				} else if (class_filter_primitive.includes(target.className)) {
+					if (target.parentNode.className == "object") {
+						let element = this.walk_siblings_for_element(target, "previousSibling", "className", "key");
+						path.unshift(element.innerHTML);
+
+					} else {
+						let idx = this.walk_siblings_for_idx(target, "previousSibling", "+", "innerHTML", ",");
+						path.unshift(idx);
+					}
+
+				} else if (class_filter_special.includes(target.className)) {
+					if (target.className != "keyword") {
+						target = target.parentNode;
+					}
+
+					if (target.parentNode.className == "object") {
+						target = target.previousSibling.previousSibling;
+						path.unshift(target.innerHTML);
+
+					} else if  (target.parentNode.className == "array") {
+						let idx = this.walk_siblings_for_idx(target, "previousSibling", "+", "innerHTML", ",");
+						path.unshift(idx);
+					}
+				}
+
+				target = target.parentNode;
+			}
+
+			path.shift()
+			return path.join(".").replaceAll("\"", "");
+		},
+
+		walk_siblings_for_element: function(_element, _sibling_itter, _attribute, _value) {
+			let idx = 0;
+			let sibling = _element[_sibling_itter];
+
+			while(sibling) {
+				if (sibling[_attribute] == _value) {
+					return sibling;
+				}
+
+				sibling = sibling[_sibling_itter];
+			}
+		},
+
+		walk_siblings_for_idx: function(_element, _sibling_itter, _operation, _attribute, _value) {
+			let idx = 0;
+			let sibling = _element[_sibling_itter];
+
+			while(sibling) {
+				if (sibling[_attribute] == _value) {
+					idx = (_operation == "+") ? idx + 1 : idx - i;
+				}
+
+				sibling = sibling[_sibling_itter];
+			}
+
+			return idx;
+		}
+	});
+</script>

@@ -1,0 +1,140 @@
+.spacer-icon {
+	height: 24px;
+	width:  24px;
+	background: transparent;
+}
+
+.no-icon {
+	height: 24px;
+	width:  24px;
+}
+
+.rot-0 {
+	transform: rotate(0deg);
+}
+
+.rot-90 {
+	transform: rotate(90deg);
+}
+
+.rot-180 {
+	transform: rotate(180deg);
+}
+
+.rot-270 {
+	transform: rotate(270deg);
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.center {
+	margin: auto;
+	text-align: center;
+}
+
+.center-h {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.center-v {
+	margin-top: auto;
+	margin-bottom: auto;
+	text-align: center;
+}
+
+.right-justify {
+	margin-left: auto;
+	text-align: right;
+}
+
+.left-justify {
+	margin-right: auto;
+	text-align: left;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.undiscovered {
+	background-color: white;
+}
+.discovered {
+	background-color: black;
+}
+.current {
+	background-color: purple;
+}
+
+.container-button-1 {
+	display: grid;
+	grid-template-areas:
+		"btn-1" "btn-1" "btn-1";
+}
+
+.container-button-2 {
+	display: grid;
+	grid-template-areas:
+		"btn-1"
+		"btn-2";
+}
+
+.container-button-3 {
+	display: grid;
+	grid-template-areas:
+		"btn-1 btn-1"
+		"btn-2 btn-3";
+}
+
+.container-button-4 {
+	display: grid;
+	grid-template-areas:
+		"btn-f1 btn-2 btn-f2"
+		"btn-1 btn-f3 btn-3"
+		"btn-f4 btn-4 btn-f5";
+}
+
+.container-button-9 {
+	display: grid;
+	grid-template-areas:
+		"btn-l btn-1 btn-2 btn-3 btn-r"
+		"btn-l btn-4 btn-5 btn-6 btn-r"
+		"btn-l btn-7 btn-8 btn-9 btn-r";
+}
+
+.btn-f { grid-area: btn-f; }
+
+.btn-1 { grid-area: btn-1; }
+.btn-2 { grid-area: btn-2; }
+.btn-3 { grid-area: btn-3; }
+.btn-4 { grid-area: btn-4; }
+.btn-5 { grid-area: btn-5; }
+.btn-6 { grid-area: btn-6; }
+.btn-7 { grid-area: btn-7; }
+.btn-8 { grid-area: btn-8; }
+.btn-9 { grid-area: btn-9; }
+
+.btn-l { grid-area: btn-l; }
+.btn-r { grid-area: btn-r; }
+
+
+.session-key:nth-of-type(odd) {
+  background: lightgray;
+}
+
+.session-key:nth-of-type(even) {
+  background: darkgray;
+}
+
+.black-text {
+	color: black;
+}
+
+.inverted {
+	filter: invert(1);
+}

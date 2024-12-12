@@ -1,0 +1,163 @@
+
+	<div class="canvas">
+
+		<div class="container">
+
+			<!-- Map -->
+			<div id="map_group" class="container-map center-h">
+				<div class="option-column-buttons">
+					<div class="row-1 sidebar-open-button home-icon" onclick="open_sidebar('sidebar_load')"></div>
+					<div class="row-2 sidebar-open-button full-screen-icon" onclick="toggleFullScreen()"></div>
+				</div>
+				<div id="map" class="map center-h">
+					<div id="areas" class="areas overlay center-h">
+						<div class="row-1 cell "></div>
+						<div class="row-1 cell "></div>
+						<div class="row-1 cell "></div>
+						<div class="row-1 cell "></div>
+						<div class="row-1 cell "></div>
+						<div class="row-2 cell "></div>
+						<div class="row-2 cell "></div>
+						<div class="row-2 cell "></div>
+						<div class="row-2 cell "></div>
+						<div class="row-2 cell "></div>
+						<div class="row-3 cell "></div>
+						<div class="row-3 cell "></div>
+						<div class="row-3 cell "></div>
+						<div class="row-3 cell "></div>
+						<div class="row-3 cell "></div>
+						<div class="row-4 cell "></div>
+						<div class="row-4 cell "></div>
+						<div class="row-4 cell "></div>
+						<div class="row-4 cell "></div>
+						<div class="row-4 cell "></div>
+						<div class="row-5 cell "></div>
+						<div class="row-5 cell "></div>
+						<div class="row-5 cell "></div>
+						<div class="row-5 cell "></div>
+						<div class="row-5 cell "></div>
+					</div>
+					<div id="doors" class="doors center-h overlay">
+						<div class="row-1 cell-mini spacer-icon"></div>
+						<div class="row-1 cell-mini no-icon"></div>
+						<div class="row-1 cell-mini spacer-icon"></div>
+						<div class="row-1 cell-mini no-icon"></div>
+						<div class="row-1 cell-mini spacer-icon"></div>
+						<div class="row-1 cell-mini no-icon"></div>
+						<div class="row-1 cell-mini spacer-icon"></div>
+						<div class="row-1 cell-mini no-icon"></div>
+						<div class="row-1 cell-mini spacer-icon"></div>
+						
+						<div class="row-2 cell-mini no-icon"></div>
+						<div class="row-2 cell-mini spacer-icon"></div>
+						<div class="row-2 cell-mini no-icon"></div>
+						<div class="row-2 cell-mini spacer-icon"></div>
+						<div class="row-2 cell-mini no-icon"></div>
+						<div class="row-2 cell-mini spacer-icon"></div>
+						<div class="row-2 cell-mini no-icon"></div>
+						<div class="row-2 cell-mini spacer-icon"></div>
+						<div class="row-2 cell-mini no-icon"></div>
+						
+						<div class="row-3 cell-mini spacer-icon"></div>
+						<div class="row-3 cell-mini no-icon"></div>
+						<div class="row-3 cell-mini spacer-icon"></div>
+						<div class="row-3 cell-mini no-icon"></div>
+						<div class="row-3 cell-mini spacer-icon"></div>
+						<div class="row-3 cell-mini no-icon"></div>
+						<div class="row-3 cell-mini spacer-icon"></div>
+						<div class="row-3 cell-mini no-icon"></div>
+						<div class="row-3 cell-mini spacer-icon"></div>
+						
+						<div class="row-4 cell-mini no-icon"></div>
+						<div class="row-4 cell-mini spacer-icon"></div>
+						<div class="row-4 cell-mini no-icon"></div>
+						<div class="row-4 cell-mini spacer-icon"></div>
+						<div class="row-4 cell-mini no-icon"></div>
+						<div class="row-4 cell-mini spacer-icon"></div>
+						<div class="row-4 cell-mini no-icon"></div>
+						<div class="row-4 cell-mini spacer-icon"></div>
+						<div class="row-4 cell-mini no-icon"></div>
+						
+						<div class="row-5 cell-mini spacer-icon"></div>
+						<div class="row-5 cell-mini no-icon"></div>
+						<div class="row-5 cell-mini spacer-icon"></div>
+						<div class="row-5 cell-mini no-icon"></div>
+						<div class="row-5 cell-mini spacer-icon"></div>
+						<div class="row-5 cell-mini no-icon"></div>
+						<div class="row-5 cell-mini spacer-icon"></div>
+						<div class="row-5 cell-mini no-icon"></div>
+						<div class="row-5 cell-mini spacer-icon"></div>
+						
+						<div class="row-6 cell-mini no-icon"></div>
+						<div class="row-6 cell-mini spacer-icon"></div>
+						<div class="row-6 cell-mini no-icon"></div>
+						<div class="row-6 cell-mini spacer-icon"></div>
+						<div class="row-6 cell-mini no-icon"></div>
+						<div class="row-6 cell-mini spacer-icon"></div>
+						<div class="row-6 cell-mini no-icon"></div>
+						<div class="row-6 cell-mini spacer-icon"></div>
+						<div class="row-6 cell-mini no-icon"></div>
+						
+						<div class="row-7 cell-mini spacer-icon"></div>
+						<div class="row-7 cell-mini no-icon"></div>
+						<div class="row-7 cell-mini spacer-icon"></div>
+						<div class="row-7 cell-mini no-icon"></div>
+						<div class="row-7 cell-mini spacer-icon"></div>
+						<div class="row-7 cell-mini no-icon"></div>
+						<div class="row-7 cell-mini spacer-icon"></div>
+						<div class="row-7 cell-mini no-icon"></div>
+						<div class="row-7 cell-mini spacer-icon"></div>
+						
+						<div class="row-8 cell-mini no-icon"></div>
+						<div class="row-8 cell-mini spacer-icon"></div>
+						<div class="row-8 cell-mini no-icon"></div>
+						<div class="row-8 cell-mini spacer-icon"></div>
+						<div class="row-8 cell-mini no-icon"></div>
+						<div class="row-8 cell-mini spacer-icon"></div>
+						<div class="row-8 cell-mini no-icon"></div>
+						<div class="row-8 cell-mini spacer-icon"></div>
+						<div class="row-8 cell-mini no-icon"></div>
+						
+						<div class="row-9 cell-mini spacer-icon"></div>
+						<div class="row-9 cell-mini no-icon"></div>
+						<div class="row-9 cell-mini spacer-icon"></div>
+						<div class="row-9 cell-mini no-icon"></div>
+						<div class="row-9 cell-mini spacer-icon"></div>
+						<div class="row-9 cell-mini no-icon"></div>
+						<div class="row-9 cell-mini spacer-icon"></div>
+						<div class="row-9 cell-mini no-icon"></div>
+						<div class="row-9 cell-mini spacer-icon"></div>
+					</div>
+				</div>
+				<div class="option-column-buttons">
+					<div class="row-1 sidebar-open-button info-icon" onclick="open_sidebar('sidebar_data')"></div>
+				</div>
+			</div>
+
+			<!-- Log -->
+			<div id="log_group" class="container-log center-h">
+				<div id="log", class="log center-h"></div>
+			</div>
+
+			<!-- Buttons -->
+			<div id="button_group", class="container-button-1">
+				<button id="start" type="button" class="button btn-1"><p class="center capitalize">Start</p></button>
+			</div>
+
+		</div>
+
+		<!-- Modal -->
+		<div id="modal" class="modal-container">
+			<div id="modal_template_id" style="display: none;"></div>
+			<div id="modal_content" class="modal-content">
+			</div>
+		</div>
+
+		<!-- Sidebar -->
+		<div id="sidebar" class="sidebar-container">
+			<div id="sidebar_template_id" style="display: none;"></div>
+			<div id="sidebar_content" class="sidebar-content">
+			</div>
+		</div>
+
+	</div>

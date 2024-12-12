@@ -1,0 +1,179 @@
+.body {
+	background-color: black;
+}
+
+.canvas {
+	display: grid;
+	grid-template-columns: auto 340px auto;
+
+	width:  340px;
+	height: auto;
+
+	padding: 0px;
+	border: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+
+	overflow: hidden;
+}
+
+.container {
+	width:  inherit;
+	height: inherit;
+	padding: 0px;
+	border: 0px;
+	margin: 0px;
+	grid-row: 1;
+	grid-column: 2;
+
+	background-color: #000000;
+}
+
+.container-log {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	flex-basis: auto;
+	flex-grow: 1;
+
+	width: inherit;
+	height: 340px;
+
+	border: inherit;
+	margin: inherit;
+	padding: inherit;
+	padding-bottom: 2px;
+
+	background-color: black;
+}
+
+.log{
+	overflow-y:scroll;
+	height: auto;
+	width: inherit;
+	background-color: white;
+	border-radius: 10px;
+
+	flex-direction: row;
+	align-items: stretch;
+	flex-basis: auto;
+	flex-grow: 1 ;
+}
+
+.button {
+	height: 42px;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex-basis: auto;
+	flex-grow: 1;
+
+	margin: 2px;
+	padding: 2px;
+	border: 2px;
+	border-radius: 10px;
+	border-color: black;
+}
+
+.container-map {
+	display: grid;
+	grid-template-columns: 48px 244px 48px;
+	height: 244px;
+	margin-top: 0px;
+	margin-bottom: 4px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-radius: 10px;
+	background-color: white;
+}
+
+.map {
+  display: grid;
+  grid-template-rows: 244px 1fr;
+	height: 244px;
+	margin-top: 0px;
+	margin-bottom: 4px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.map .overlay {
+	grid-area: 1/1/1/1;
+}
+
+.areas {
+	display: grid;
+	grid-template-columns: 5;
+	height: 240px;
+	width:  240px;
+	margin: auto;
+	background-color: white;
+}
+.doors {
+	display: grid;
+	grid-template-columns: 9;
+	height: 216px;
+	width:  216px;
+	margin: auto;
+	background-color: transparent;
+}
+
+.option-column-buttons {
+	display: grid;
+	grid-template-columns: 1;
+	height: 244px;
+	width: 48px;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 4px;
+}
+
+.cell {
+	float:left;
+	position: relative;
+	background-position:center center;
+	background-repeat:no-repeat;
+	height: 48px;
+	width:  48px;
+}
+
+.cell-mini {
+	float:left;
+	position: relative;
+	background-position:center center;
+	background-repeat:no-repeat;
+	height: 24px;
+	width:  24px;
+}
+
+.row-1 {
+	grid-row: 1;
+}
+.row-2 {
+	grid-row: 2;
+}
+.row-3 {
+	grid-row: 3;
+}
+.row-4 {
+	grid-row: 4;
+}
+.row-5 {
+	grid-row: 5;
+}
+.row-6 {
+	grid-row: 6;
+}
+.row-7 {
+	grid-row: 7;
+}
+.row-8 {
+	grid-row: 8;
+}
+.row-9 {
+	grid-row: 9;
+}
+
+

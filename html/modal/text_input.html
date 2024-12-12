@@ -1,0 +1,37 @@
+<script type="text/html" id="modal_text_input_template">
+	<div class="modal-header tabs">
+		<p class="center-v left-justify">##0##:</p>
+		<span class="right-justify" onclick="close_modal()"><div class="close-icon"></div></span>
+	</div>
+	<div class="modal-body">
+		<div class="center">
+			<input type="text" id="modal_input_0" name="input_0" class="left-justify"><br>
+		</div>
+	</div>
+	<div class="modal-footer tabs">
+		<button id="submit_modal" class="button center-h"><p class="center">Submit</p></button>
+	</div>
+</script>
+
+<script>
+	function get_modal_text_input_ref() {
+		return modal_text_input;
+	};
+
+	const modal_text_input = Object({
+		initialize: function(_resolve, _reject, _args) {
+			let title 	= _args[0];
+			let context = _args[1];
+			let path 		= _args[2];
+
+			html_factory.build("modal_text_input_template", "modal_content", [title]);
+
+			let submit = document.getElementById("submit_modal");
+			submit.addEventListener("click", function() {
+				_resolve(document.getElementById("modal_input_0").value);
+				close_modal();
+			});
+		},
+	});
+</script>
+

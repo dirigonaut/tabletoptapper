@@ -1,0 +1,39 @@
+<script type="text/html" id="modal_roll_template">
+	<div class="modal-header tabs">
+		<p class="center-v left-justify">Set Roll:</p>
+		<span class="right-justify" onclick="close_modal()"><div class="close-icon"></div></span>
+	</div>
+	<div class="modal-body">
+		<div class="center">
+			<label for="input_0" class="left-justify">Set to:</label><br>
+			<input type="text" id="modal_input_0" name="input_0" class="right-justify" value=1><br>
+			<label for="input_1" class="left-justify">Out of:</label><br>
+			<input type="text" id="modal_input_1" name="input_1" class="right-justify" value="##0##"><br>
+		</div>
+	</div>
+	<div class="modal-footer tabs">
+		<button id="submit_modal" class="button center-h"><p class="center">Submit</p></button>
+	</div>
+</script>
+<script>
+	function get_modal_roll_ref() {
+		return modal_roll;
+	};
+
+	const modal_roll = Object({
+		initialize: function(_resolve, _reject, _args) {
+			let max_r		= _args[3];
+			html_factory.build("modal_roll_template", "modal_content", [max_r]);
+
+			let submit = document.getElementById("submit_modal");
+			submit.addEventListener("click", function() {
+				let input = document.getElementById("modal_input_0").value;
+				let max = parseInt((typeof max_r == "number") ? max_r : document.getElementById("modal_input_1").value);
+
+				_reject([_args[1], [_args[2], input - 1, max - 1]]);
+				close_modal();
+			});
+		},
+	});
+</script>
+

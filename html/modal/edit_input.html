@@ -1,0 +1,40 @@
+<script type="text/html" id="modal_edit_input_template">
+	<div class="modal-header tabs">
+		<p class="center-v left-justify">Edit the Value:</p>
+		<span class="right-justify" onclick="close_modal()"><div class="close-icon"></div></span>
+	</div>
+	<div class="modal-body">
+		<div class="center">
+			<label for="input_0">Path:</label><br>
+			<input type="text" id="modal_input_0" name="input_0" class="right-justify" value=##0##><br>
+			<label for="input_1">Value:</label><br>
+			<input type="text" id="modal_input_1" name="input_1" class="right-justify" value="##1##"><br>
+		</div>
+	</div>
+	<div class="modal-footer tabs">
+		<button id="submit_modal" class="button center-h"><p class="center">Submit</p></button>
+	</div>
+</script>
+
+<script>
+	function get_modal_edit_input_ref() {
+		return modal_edit_input;
+	};
+
+	const modal_edit_input = Object({
+		initialize: function(_resolve, _reject, _path, _data) {
+			html_factory.build("modal_edit_input_template", "modal_content", [_path, _data]);
+
+			let submit = document.getElementById("submit_modal");
+			submit.addEventListener("click", function() {
+				let path = document.getElementById("modal_input_0").value;
+				let value = document.getElementById("modal_input_1").value;
+
+				io.event_handler("write", [sidebar_data.context, path, value]);
+				close_modal();
+				close_sidebar();
+			});
+		},
+	});
+</script>
+

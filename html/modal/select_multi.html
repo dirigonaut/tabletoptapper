@@ -1,0 +1,63 @@
+<script type="text/html" id="modal_select_multi_template">
+	<div class="modal-header tabs">
+		<p class="center-v left-justify">##0##</p>
+		<span class="right-justify" onclick="close_modal()"><div class="close-icon"></div></span>
+	</div>
+	<div class="modal-body">
+		<div class="center">
+			<select name="select_multi" id="select_multi" multiple size=##2##>
+				##1##
+			</select>
+		</div>
+	</div>
+	<div class="modal-footer tabs">
+		<button id="submit_modal" class="button center-h"><p class="center">Submit</p></button>
+	</div>
+</script>
+<script>
+	function get_modal_select_multi_ref() {
+		return modal_select_multi;
+	};
+
+	const modal_select_multi = Object({
+		initialize: function(_resolve, _reject, _args) {
+			let title 	= _args[0];
+			let selects = _args[1];
+			let context = _args[2];
+			let path 		= _args[3];
+
+			let options = (context) ? io.read(context, path) : path;
+			html_factory.build("modal_select_multi_template", "modal_content", [title, this.get_options(options), Math.min(options.length, 15)]);
+
+			let select_multi = document.getElementById("select_multi");
+			let submit = document.getElementById("submit_modal");
+			submit.addEventListener("click", function() {
+				let selected = select_multi.selectedOptions
+
+				let results = [];
+				for(let entry of selected) {
+					results.push(entry.value.split(":")[1])
+				}
+
+				if (selects[0] <= results.length && results.length <= selects[1]) {
+					_resolve(results);
+				} else {
+					input.event_handler("log", [`You must select between ${selects[0]}-${selects[1]} options you selected ${results.length}.`]);
+				}
+
+				close_modal();
+			});
+		},
+
+		get_options: function(_options) {
+			_options = (Array.isArray(_options) == false && typeof _options == "object") ? Object.entries(_options) : _options;
+			let html = "";
+			for (let idx in _options) {
+				let option = (Array.isArray(_options[idx])) ? _options[idx][0]: _options[idx];
+				html += `<option value="${idx}:${option}">${option}</option>\n`
+			}
+			return html
+		},
+	});
+</script>
+

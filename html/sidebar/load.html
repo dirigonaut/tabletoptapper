@@ -1,0 +1,166 @@
+<script type="text/html" id="sidebar_load_template">
+	<div id="sidebar_head" class="modal-header tabs">
+		<p id="sidebar_title" class="center-v left-justify">Null</p>
+		<button id="profile_button" class="button"><p class="center-h capitalize">profiles</p></button>
+		<button id="save_button" class="button" disabled><p class="center-h capitalize">saves</p></button>
+		<span class="right-justify" onclick="close_sidebar()"><div class="close-icon"></div></span>
+	</div>
+
+	<div id="sidebar_body" class="sidebar-body">
+	</div>
+
+	<div id="sidebar_footer" class="tabs">
+		<button id="new_data" class="button"><p class="center-h capitalize">New</p></button>
+		<button id="load_data" class="button"><p class="center-h capitalize">Load</p></button>
+		<button id="delete_data" class="button"><p class="center-h capitalize">Delete</p></button>
+	</div>
+</script>
+
+<script>
+	function get_sidebar_load_ref() {
+		return sidebar_load;
+	};
+
+	const sidebar_load = Object({
+		selected_data: "",
+
+		initialize: async function() {
+			let tab_buttons = Array.from(document.getElementById("sidebar_head").children).slice(1);
+			tab_buttons[0].addEventListener("click", 	this.on_profile_data.bind(sidebar_load)); 
+			tab_buttons[1].addEventListener("click", 	this.on_save_data.bind(sidebar_load)); 
+
+			let action_buttons = Array.from(document.getElementById("sidebar_footer").children).slice();
+			action_buttons[0].addEventListener("click", 	this.on_action.bind(sidebar_load, "new")); 
+			action_buttons[1].addEventListener("click", 	this.on_action.bind(sidebar_load, "load")); 
+			action_buttons[2].addEventListener("click", 	this.on_action.bind(sidebar_load, "delete")); 
+
+			if(save_data.name) {
+				this.on_save_data();
+			} else {
+				this.on_profile_data();
+			}
+		},
+
+		create_entry: function(_entry) {
+			let div = document.createElement("div");
+			div.id = _entry;
+			div.className = "session-key";
+
+			let p = document.createElement("p");
+			p.className = "black-text"
+			p.innerHTML = _entry;
+			div.appendChild(p);
+
+			div.addEventListener("click", sidebar_load.on_select.bind(this, div, _entry));
+			return div;
+		},
+
+		on_profile_data: async function() {
+			document.getElementById("sidebar_title").innerText = "Profiles:";
+
+			sidebar_load.selected_data = "";
+			let db_entries = await profile.get_profiles();
+
+			let root = html_factory.get_and_clear_element("sidebar_body");
+			for(let idx in db_entries) {
+				let profile_entry = this.create_entry(db_entries[idx])
+				root.appendChild(profile_entry);
+
+				if (db_entries[idx][0] == save_data.name) {
+					this.on_select(profile_entry, db_entries[idx], null);
+					document.getElementById("save_button").disabled = false;
+					this.on_save_data.bind(this);
+				}
+			}
+		},
+
+		on_save_data: async function() {
+			document.getElementById("save_button").disabled = false;
+			document.getElementById("sidebar_title").innerText = "Save Data:";
+
+			sidebar_load.selected_data = "";
+			let save_entries = await profile.get_saves();
+			save_entries.sort((_a, _b) => { return (parseInt(_a.split("-").at(-1)) < parseInt(_b.split("-").at(-1)) ? -1 : 1) });
+
+			let root = html_factory.get_and_clear_element("sidebar_body");
+			for(let idx in save_entries) {
+				root.appendChild(this.create_entry(save_entries[idx]));
+			}
+		},
+
+		on_select: function(_div, _entry, _event) {
+			sidebar_load.selected_data = _entry;
+			Array.from(document.getElementsByClassName("inverted")).forEach(ele => ele.className = ele.className.replace("inverted", ""));
+			_div.className += " inverted" 
+		},
+
+		on_action: async function(_action) {
+			let title = document.getElementById("sidebar_title");
+			let context = (title.innerText == "Profiles:") ? "profile" : "save";
+
+			if (_action == "load") {
+				if (context == "profile") {
+					await this.on_profile_load();
+				} else if (context == "save") {
+					await this.on_save_load();
+				}
+			} else if (_action == "delete") {
+				if (context == "profile") {
+					await this.on_profile_delete();
+				} else if (context == "save") {
+					await this.on_save_delete();
+				}
+			} else if (_action == "new") {
+				if (context == "profile") {
+					let new_profile = async function(_profile_name) {
+						profile.set_profile(_profile_name);
+						profile.set_save(0);
+						await profile.save_data().then(() => { sidebar_load.on_profile_data(); });
+						close_sidebar();
+					};
+
+					open_modal("modal_text_input", new_profile, null, ["Profile Name"])
+				}
+			}
+		},
+
+		on_profile_load: function() {
+			if (sidebar_load.selected_data == "") { return };
+			profile.set_profile(sidebar_load.selected_data[0]);
+			document.getElementById("save_button").disabled = false;
+			
+			sidebar_load.on_save_data.bind(sidebar_load)();
+		},
+
+		on_profile_delete: async function() {
+			if (sidebar_load.selected_data == "") { return };
+			await profile.delete_profile(sidebar_load.selected_data[0]);
+
+			let entry = document.getElementById(sidebar_load.selected_data);
+			entry.parentElement.removeChild(entry);
+
+			let profile_id = `${sidebar_load.selected_data[0]}-${sidebar_load.selected_data[1]}`
+			if (profile_id == save_data.id) {
+				document.getElementById("save_button").disabled = true;
+			}
+		},
+
+		on_save_load: async function() {
+			if (sidebar_load.selected_data == "") { return };
+
+			profile.set_save(sidebar_load.selected_data.split("-")[1]);
+			await profile.load_data()
+			.then(function(_data) {
+				close_sidebar();
+			});
+		},
+
+		on_save_delete: async function() {
+			if (sidebar_load.selected_data == "") { return };
+
+			await profile.delete_data(sidebar_load.selected_data);
+			let entry = document.getElementById(sidebar_load.selected_data);
+			entry.parentElement.removeChild(entry);
+		}
+	});
+</script>
