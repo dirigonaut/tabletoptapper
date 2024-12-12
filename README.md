@@ -74,16 +74,16 @@ Operation Logic:
       - If true run the first command
       - Else run the second command
     - If either commands are null and their condition triggers then it just passes through
-    - EX: 
-		```
+    - EX: ```
 		{"id": "die", "action": "branch", "args": [["<roll>", "<", 2],
-			 {"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, 
-			 {"action":"resolve", "args":["<die>"]}]}```
-	- loop
-		- It is a looping function call
-			- It will call a rule for every entry in a collection passed to it
-			- The keyword ```$idx$``` will be resolved to the element value at each pass as it loops through the collection calling the rule with it
-			- Other hardcoded values or variables can be passed in as well
+			{"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, 
+			{"action":"resolve", "args":["<die>"]}]}```
+- loop
+  - It is a looping function call
+    - It will call a rule for every entry in a collection passed to it
+    - The keyword ```$idx$``` will be resolved to the element value at each pass as it loops through the collection calling the rule with it
+    - Other hardcoded values or variables can be passed in as well
+		- EX: ``` {"id": "skills", "action": "loop", "args": ["character.attributes.stats.get.total", "<keys>", ["<party>", "<char_idx>", "$idx$", null]]} ```
 
 ## License
 MIT NON-AI License
