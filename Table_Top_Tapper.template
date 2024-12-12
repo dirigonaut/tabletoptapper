@@ -33,7 +33,7 @@
 "__%__css/misc.css__%__"
 </style>
 
-<title>Ker Nethalous</title>
+<title>Table Top Tapper</title>
 </head>
 
 <body class="body">
@@ -59,15 +59,15 @@
 "__%__html/sidebar/load.html__%__"
 
 <script>
-"__%__data/ker_nethalas/game_data/game_v_1.js__%__"
+"__%__data/data_sets/game_data/game_v_1.js__%__"
 </script>
 
 <script>
-"__%__data/ker_nethalas/save_data/save_v_1.js__%__"
+"__%__data/data_sets/save_data/save_v_1.js__%__"
 </script>
 
 <script>
-"__%__data/ker_nethalas/rule_data/rules_v_1.js__%__"
+"__%__data/data_sets/rule_data/rules_v_1.js__%__"
 </script>
 
 <script>

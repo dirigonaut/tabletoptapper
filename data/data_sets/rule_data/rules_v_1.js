@@ -1368,7 +1368,7 @@ const rule_data = Object({
 				{"id": "intro",				"action": "format",		"args": ["<intro>", "<name>"]},
 				{"id": "notify",			"action": "notify", 	"args": ["<intro>"]},
 				// Roll for Crime
-				{"id": "notify",			"action": "notify", 	"args": ["They were thrown into Ker Nethalas for having committed the crime of: "]},
+				{"id": "notify",			"action": "notify", 	"args": ["They were thrown into Underverse for having committed the crime of: "]},
 				{"id": "inject", 			"action": "inject", 	"args": ["dice.rolls.save_roll_against_table", ["tables.crimes", "character_party.<char_idx>.biography.crime"]]},
 				// Set Merits
 				{"id": "log",					"action": "log", 			"args": ["---------------- Merits ---------------"]},

@@ -163,7 +163,7 @@ Operation Logic:
 	- EX: ``` {"id": "rolls", "action": "goto", "args": ["id.add_rolls.prev"]} ```
 
 ## Process
-[Process](js/game_engine/stack/stack.js)
+[Process](js/game_engine/stack/process.js)
 
 This is the languages equivalent to a thread. It is it's own stack if FILO queued Rules. This was needed as if I wanted to interupt a running rule multiple times to say edit a variable I did not want to have to keep track of the changing index. Then there is also the what if you have a process_3 thread that cancels another process_2 thread while leaving a process_1 thread alone. It was just easier to keep them scoped to their own "threads" allowing for simpler creation/destruction of the queues of logic (aka Process).
 
