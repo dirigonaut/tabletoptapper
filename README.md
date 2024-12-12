@@ -2,7 +2,10 @@
 
 ### Table of Contents
  - [Overview](#overview)
- - 
+ - [Architecture](#architecture)
+ - [Entry Point](#entry-point)
+ - [Game Loop](#game-loop)
+ - [Stack](#stack)
 
 ## Overview
 
@@ -15,6 +18,73 @@ At a certain point I kind of had to ask myself, what was I doing creating a prog
 ## Architecture
 ![UML](uml.jpg "uml")
 
+This is basically a programming language that has as stack with multiple Processes(threads) that have Rules(functions) with Steps(lines of code). All the systems are connected together using events and promises, such that each step that is evented awaits until the underlying system resolves it's promise and stores it's results. Processes can interupt other processes to run a section of logic before resuming the parent process, and can even edit the data in the parent process to change behavior. This latter behavior is primarily handled by the Context>Audience>Listener domain, which is a glorified event listener with multiple levels allowing a scoping of events as well as toggles allowing event logic to be turned on/off as needed. Beyond the data stores most of the other objects are functions for performing an operation that each Step would call.
+
+## Entry Point
+[Entry Point](js/entry_point.js)
+
+This is the start of the program. 
+	- Here we wire up all the events from their objects and classes to the publisher which is how all the systems communicate. 
+	- The profile has all the state systems wired up such that on save/load the state can be pushed/pulled from the indexdb and inflated/deflated.
+	- All the operations each utility object is capable of is wired up such that the object it belongs to can be reverse look-up'ed for eventing
+	- The game loop is wired up to the start button to trigger the loop to begin
+
+## Game Loop
+[Game Loop](js/game_engine/game_loop.js)
+
+This is where the main meat and potatoes of the application begins. It is equivalently the main logic handling, running each rule contained in a process. It also has a default action/rule that it will default to once it has cleared all operations.
+
+Operation Logic:
+	- run:
+		- Make sure only one loop can be running at a time
+		- Get the process from the stack
+		- Get the next rule from the process
+		- Setting itself to a Waiting state 
+		- Call next on the rule and await the current rule's > step's promise to resolve
+			- If the promise is rejected 
+				- And it is an error then log the error and halt the program
+				- Else it is a Process interupt that will spawn a new Process that once finished will resume the parent process where it left off
+			- Finally it emits an event that says the game loop has processed completing the step operation
+		- Get the next process and the next rule(Which could be the same process and rule but at the next step)
+			- Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
+		- Once it has run out of Process>Rules>Steps to perform
+			- Update the state to Finished
+			- Trigger a save of all the state if the state has changed
+			- Set the state to None
+			- Emit game_loop.finished (which the heap is wired up to, triggering it to purge the heap)
+			- Then reset the game_loop back to the default action starting the process all over again
+
+## Stack
+[Stack](js/game_engine/stack.js)
+
+This is a FILO Queue of Processes(Threads) that has a variety of functionality to it. It has responsibility of maintaining the stack process pointers and manipulating the stack.
+
+Operation Logic:
+	- get_process:
+		- Returns the process at a given index and the index defaults to 0(top of the queue)
+		- As it is called if a process is finished it will handle removing it from the queue
+		- When a process is shifted from the queue the next on defaults to 0 and the process repeats
+	- new_process:
+		- push a new process onto the stack to be processed in the next game loop pass
+		- It will also return the index from the right to the caller that is it's own index
+			- It returns the right index so that as things get pushed on before it, the index does not become broken
+	- branch:
+		- Is basically a if statement 
+			- It takes a condition
+				- If true run the first command
+				- Else run the second command
+				- If either commands are null and their condition triggers then it just passes through
+		- EX: 
+		```
+				{"id": "die", 		"action": "branch", 	"args": [["<roll>", "<", 2],  
+																									{"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, 
+																									{"action":"resolve", "args":["<die>"]}]}
+		```
+	- loop
+		- It is a looping function call
+			- It will call a rule for every entry in a collection passed to it
+			- The keyword ```$idx$``` will be resolved to the element value at each pass as it loops through the collection calling the rule with it
+			- Other hardcoded values or variables can be passed in as well
 
 ## License
 MIT NON-AI License

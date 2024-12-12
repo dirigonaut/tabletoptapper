@@ -1,3 +1,4 @@
+// Wire up all the events to the publisher so that they can fire when called
 publisher.subscribe(new EventTarget(), "ops",				publisher.pass_through(ops));
 publisher.subscribe(new EventTarget(), "stack",			publisher.pass_through(stack));
 publisher.subscribe(new EventTarget(), "io", 				publisher.pass_through(io));
@@ -16,10 +17,12 @@ publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(map_co
 
 publisher.subscribe(new EventTarget(), "game_loop.finished", 	heap.purge.bind(heap));
 
+// Register the profile with all the state systems to save them to the indexdb
 profile.register("save_data", save_data.get.bind(save_data), save_data.set.bind(save_data));
 profile.register("heap", 			heap.get.bind(heap), heap.set.bind(heap));
 profile.register("publisher", publisher.get.bind(publisher), publisher.set.bind(publisher));
 
+// Wire up all the programmable actions across all the files
 ops.actions.reduce((acc, entry) 			=> 	{acc[`${entry}`] = "ops"; 				return acc}, Action_Targets);
 stack.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "stack"; 			return acc}, Action_Targets);
 io.actions.reduce((acc, entry) 				=> 	{acc[`${entry}`] = "io"; 					return acc}, Action_Targets);
@@ -28,6 +31,7 @@ input.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "input"; 			return ac
 game_loop.actions.reduce((acc, entry)	=> 	{acc[`${entry}`] = "game_loop"; 	return acc}, Action_Targets);
 publisher.actions.reduce((acc, entry)	=> 	{acc[`${entry}`] = "publisher"; 	return acc}, Action_Targets);
 
+// The entry point game loop
 let entry_point = async function(e) {
 	if (profile.name != null) {
 		while(game_loop.state == State.None) {
