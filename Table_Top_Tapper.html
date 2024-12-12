@@ -701,7 +701,7 @@
 }
 </style>
 
-<title>Ker Nethalous</title>
+<title>Table Top Tapper</title>
 </head>
 
 <body class="body">
@@ -2401,7 +2401,7 @@ const game_data = Object({
 					},
 					"thievery": {
 						"success": [{"name": "Masterful Thief", "desc": "The character executes their thieving act with exceptional skill and precision, exceeding expectations. They receive Advantage on their next Thievery check.", "rule": null}],
-						"failure": [{"name": "Bungled Attempt", "desc": "The character makes a critical error during their thieving attempt, leading to complications. They accidentally have triggered a trap they had somehow missed. Roll on the Traps table (Ker Nethalas, page 105).", "rule": null}]
+						"failure": [{"name": "Bungled Attempt", "desc": "The character makes a critical error during their thieving attempt, leading to complications. They accidentally have triggered a trap they had somehow missed. Roll on the Traps table.", "rule": null}]
 					},
 					"combat": {
 						"success": [],
@@ -2560,7 +2560,7 @@ const game_data = Object({
 				"trained": 							{ "name": "trained",					"rule": "character.biography.merits.trained",					"desc": "You have obsessively trained with one particular weapon, granting you +10 to your weapon skill when wielding that type of weapon."}
 			},
 			"flaws": {
-				"addict": 							{ "name": "addict", 					"rule": "character.biography.flaws.addict",					"desc": "You are addicted to the rush and carefree feeling that narcotics provide, more so since you were cast into Ker Nethalas. Each time you ind Cooking Supplies (which in Ker Nethalas usually means a variety of mushrooms and edible mosses), you spend some of them for recreational purposes, resulting in you finding 1 less."},
+				"addict": 							{ "name": "addict", 					"rule": "character.biography.flaws.addict",					"desc": "You are addicted to the rush and carefree feeling that narcotics provide, more so since you were cast into the Underverse. Each time you ind Cooking Supplies, you spend some of them for recreational purposes, resulting in you finding 1 less."},
 				"coward": 							{ "name": "coward", 					"rule": "character.biography.flaws.coward",					"desc": "You have Disadvantage on all Resolve checks involving fear. This Flaw cannot be taken if in possession of the Fearless Merit."},
 				"cracked_soul": 				{ "name": "cracked_soul", 		"rule": "character.biography.flaws.cracked_soul",		"desc": "You start the game with D4+8 Aether, instead of D6+8."},
 				"cursed": 							{ "name": "cursed", 					"rule": "character.biography.flaws.cursed",					"desc": "You offended a deity or some powerful sorcerer, who cursed you. -10 Magic Resistance. This Flaw cannot be taken in conjunction with the Blessed Merit."},
@@ -2932,7 +2932,7 @@ const game_data = Object({
 		},
 		"emersion_text": {
 			"general": {
-				"introduction": "When __0__ first awakens among rotting corpses, confused and in pain, they have nothing but some rags on, and the knowledge they accumulated all those years spent on the surface. Ker Nethalas is an unforgivable place, and they'll need to find their footing quickly if they want to survive."
+				"introduction": "When __0__ first awakens among rotting corpses, confused and in pain, they have nothing but some rags on, and the knowledge they accumulated all those years spent on the surface. Underverse is an unforgivable place, and they'll need to find their footing quickly if they want to survive."
 			}
 		},
 	},
@@ -3954,7 +3954,8 @@ const rule_data = Object({
 			generate: [
 				["enemy_id", "encounter_key"],
 				{"id": "count", 		"action": "read", 		"args": ["game_d", "encounters.<enemy_id>.biography.number"]},
-				{"id": "null", 			"action": "loop", 		"args": ["combat.enemies.add", ["<enemy_id>", "<encounter_key>"]]},
+				{"id": "count",			"action": "range", 		"args": ["<count>"]},
+				{"id": "null", 			"action": "loop", 		"args": ["combat.enemies.add", "<count>", ["<enemy_id>", "$idx$"]]},
 				{"id": "null", 			"action": "return", 	"args": ["<count>"]},
 			],
 
@@ -4336,7 +4337,7 @@ const rule_data = Object({
 				{"id": "intro",				"action": "format",		"args": ["<intro>", "<name>"]},
 				{"id": "notify",			"action": "notify", 	"args": ["<intro>"]},
 				// Roll for Crime
-				{"id": "notify",			"action": "notify", 	"args": ["They were thrown into Ker Nethalas for having committed the crime of: "]},
+				{"id": "notify",			"action": "notify", 	"args": ["They were thrown into Underverse for having committed the crime of: "]},
 				{"id": "inject", 			"action": "inject", 	"args": ["dice.rolls.save_roll_against_table", ["tables.crimes", "character_party.<char_idx>.biography.crime"]]},
 				// Set Merits
 				{"id": "log",					"action": "log", 			"args": ["---------------- Merits ---------------"]},
@@ -6910,19 +6911,6 @@ const stack = Object({
 
 		return rule_ids;
 	},
-	
-	trigger: function(_event_id, _conditional, _injectable, _args) {
-		publisher.subscribe(new EventTarget(), "event", 
-			publisher.pass_through(function(_event_id, _value, _resolve, _reject) {
-				if (_event_id.indexOf(_event_id) == 0) {
-					if (_conditional.length == 0 || ops.math(_conditional[0], _conditional[1], _value)) {
-						let process_id = this.new_process(this.get_process().right_idx);
-						this.inject(_injectable, _args, process_id);
-					}
-				}
-			}, publisher.sub_options())
-		)
-	},
 
 	inject: function(_rule, _data=null, _process=0, _at=0) {
 		logger.func("stack", "stack.inject", arguments);
@@ -9088,6 +9076,7 @@ function toggleFullScreen() {
 </script>
 
 <script>
+// Wire up all the events to the publisher so that they can fire when called
 publisher.subscribe(new EventTarget(), "ops",				publisher.pass_through(ops));
 publisher.subscribe(new EventTarget(), "stack",			publisher.pass_through(stack));
 publisher.subscribe(new EventTarget(), "io", 				publisher.pass_through(io));
@@ -9106,10 +9095,12 @@ publisher.subscribe(new EventTarget(), "profile", 	publisher.pass_through(map_co
 
 publisher.subscribe(new EventTarget(), "game_loop.finished", 	heap.purge.bind(heap));
 
+// Register the profile with all the state systems to save them to the indexdb
 profile.register("save_data", save_data.get.bind(save_data), save_data.set.bind(save_data));
 profile.register("heap", 			heap.get.bind(heap), heap.set.bind(heap));
 profile.register("publisher", publisher.get.bind(publisher), publisher.set.bind(publisher));
 
+// Wire up all the programmable actions across all the files
 ops.actions.reduce((acc, entry) 			=> 	{acc[`${entry}`] = "ops"; 				return acc}, Action_Targets);
 stack.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "stack"; 			return acc}, Action_Targets);
 io.actions.reduce((acc, entry) 				=> 	{acc[`${entry}`] = "io"; 					return acc}, Action_Targets);
@@ -9118,6 +9109,7 @@ input.actions.reduce((acc, entry) 		=> 	{acc[`${entry}`] = "input"; 			return ac
 game_loop.actions.reduce((acc, entry)	=> 	{acc[`${entry}`] = "game_loop"; 	return acc}, Action_Targets);
 publisher.actions.reduce((acc, entry)	=> 	{acc[`${entry}`] = "publisher"; 	return acc}, Action_Targets);
 
+// The entry point game loop
 let entry_point = async function(e) {
 	if (profile.name != null) {
 		while(game_loop.state == State.None) {

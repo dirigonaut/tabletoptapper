@@ -183,6 +183,31 @@ Operation Logic:
 ## Rule 
 [Rule](js/game_engine/stack/rule.js)
 
+This is the languages equivalent to a function. All steps run inside the rule have their data scoped to the rule and as such once the rule is consumed and gone so is all the internal state. It has a variety of functions inside it for managing its state, as well as pass through functions to be able to manage the state of its steps as needed. It keeps a template of what it was initialized with allowing it to revert to a fresh run of itself as needed. 
+
+It also has to keywords (parent_process, this_process) which are the process idxs for the process that spawned it as well as it's process. These can be used in the language as: ``` <parent_process> ```, and ``` <this_process> ``. Which is in the same scope as the function passed in args so will resolve via the same process.
+
+Operation Logic:
+- constructor:
+  - It snaps/stores a variety of ids and indexes to be able to know who owns it and where it is in the stack
+	- It creates all the steps included in the rule
+	- It initializes its state to None
+- get_finished_step_results:
+  - Will find the last step with a state of Finished and return its value and idx
+- get_step_idx_by:
+	- Gets the step under the Rule by it's index
+	- This can be called in the language by using the stack.goto command
+- set_result_for_step_at_idx:
+	- Sets the result for the step at the idx and sets its state to Finished
+	- This can be called in the language by using the stack.step_result command
+- next:
+	- This is the rule's internal state managing function it is called by the main game_loop run function to process each rule's steps
+		- It will consume, run, and return steps in a FIFO order
+		- Incrementing the step_idx processing the step at each idx as it goes
+		- It will use the steps state to determine when a step is finished and can be removed
+		- When it has run out ot steps it will 
+
+
 ## License
 MIT NON-AI License
 

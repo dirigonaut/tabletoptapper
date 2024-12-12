@@ -865,7 +865,7 @@ const game_data = Object({
 					},
 					"thievery": {
 						"success": [{"name": "Masterful Thief", "desc": "The character executes their thieving act with exceptional skill and precision, exceeding expectations. They receive Advantage on their next Thievery check.", "rule": null}],
-						"failure": [{"name": "Bungled Attempt", "desc": "The character makes a critical error during their thieving attempt, leading to complications. They accidentally have triggered a trap they had somehow missed. Roll on the Traps table (Ker Nethalas, page 105).", "rule": null}]
+						"failure": [{"name": "Bungled Attempt", "desc": "The character makes a critical error during their thieving attempt, leading to complications. They accidentally have triggered a trap they had somehow missed. Roll on the Traps table.", "rule": null}]
 					},
 					"combat": {
 						"success": [],
@@ -1024,7 +1024,7 @@ const game_data = Object({
 				"trained": 							{ "name": "trained",					"rule": "character.biography.merits.trained",					"desc": "You have obsessively trained with one particular weapon, granting you +10 to your weapon skill when wielding that type of weapon."}
 			},
 			"flaws": {
-				"addict": 							{ "name": "addict", 					"rule": "character.biography.flaws.addict",					"desc": "You are addicted to the rush and carefree feeling that narcotics provide, more so since you were cast into Ker Nethalas. Each time you ind Cooking Supplies (which in Ker Nethalas usually means a variety of mushrooms and edible mosses), you spend some of them for recreational purposes, resulting in you finding 1 less."},
+				"addict": 							{ "name": "addict", 					"rule": "character.biography.flaws.addict",					"desc": "You are addicted to the rush and carefree feeling that narcotics provide, more so since you were cast into the Underverse. Each time you ind Cooking Supplies, you spend some of them for recreational purposes, resulting in you finding 1 less."},
 				"coward": 							{ "name": "coward", 					"rule": "character.biography.flaws.coward",					"desc": "You have Disadvantage on all Resolve checks involving fear. This Flaw cannot be taken if in possession of the Fearless Merit."},
 				"cracked_soul": 				{ "name": "cracked_soul", 		"rule": "character.biography.flaws.cracked_soul",		"desc": "You start the game with D4+8 Aether, instead of D6+8."},
 				"cursed": 							{ "name": "cursed", 					"rule": "character.biography.flaws.cursed",					"desc": "You offended a deity or some powerful sorcerer, who cursed you. -10 Magic Resistance. This Flaw cannot be taken in conjunction with the Blessed Merit."},
@@ -1396,7 +1396,7 @@ const game_data = Object({
 		},
 		"emersion_text": {
 			"general": {
-				"introduction": "When __0__ first awakens among rotting corpses, confused and in pain, they have nothing but some rags on, and the knowledge they accumulated all those years spent on the surface. Ker Nethalas is an unforgivable place, and they'll need to find their footing quickly if they want to survive."
+				"introduction": "When __0__ first awakens among rotting corpses, confused and in pain, they have nothing but some rags on, and the knowledge they accumulated all those years spent on the surface. Underverse is an unforgivable place, and they'll need to find their footing quickly if they want to survive."
 			}
 		},
 	},
