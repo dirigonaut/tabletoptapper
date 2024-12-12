@@ -44,7 +44,7 @@ Operation Logic:
 	  - If the promise is rejected 
       - And it is an error then log the error and halt the program
       - Else it is a Process interupt that will spawn a new Process that once finished will resume the parent process where it left off
-        - Finally it emits an event that says the game loop has processed completing the step operation
+        - Finally it emits an event that says the game loop has processed completing the step operation(Used for return logic)
 		- Get the next process and the next rule(Which could be the same process and rule but at the next step)
       - Loop back to the top and repeat until it has consumed all process's their rule's and the steps within
 		- Once it has run out of Process>Rules>Steps to perform
@@ -60,21 +60,21 @@ Operation Logic:
 This is a FILO Queue of Processes(Threads) that has a variety of functionality to it. It has responsibility of maintaining the stack process pointers and manipulating the stack.
 
 Operation Logic:
-	- get_process:
-		- Returns the process at a given index and the index defaults to 0(top of the queue)
-		- As it is called if a process is finished it will handle removing it from the queue
-		- When a process is shifted from the queue the next on defaults to 0 and the process repeats
-	- new_process:
-		- push a new process onto the stack to be processed in the next game loop pass
-		- It will also return the index from the right to the caller that is it's own index
-			- It returns the right index so that as things get pushed on before it, the index does not become broken
-	- branch:
-		- Is basically a if statement 
-			- It takes a condition
-				- If true run the first command
-				- Else run the second command
-				- If either commands are null and their condition triggers then it just passes through
-		- EX: 
+- get_process:
+  - Returns the process at a given index and the index defaults to 0(top of the queue)
+  - As it is called if a process is finished it will handle removing it from the queue
+  - When a process is shifted from the queue the next on defaults to 0 and the process repeats
+- new_process:
+  - push a new process onto the stack to be processed in the next game loop pass
+  - It will also return the index from the right to the caller that is it's own index
+    - It returns the right index so that as things get pushed on before it, the index does not become broken
+- branch:
+  - Is basically a if statement 
+    - It takes a condition
+      - If true run the first command
+      - Else run the second command
+    - If either commands are null and their condition triggers then it just passes through
+    - EX: 
 		```
 				{"id": "die", 		"action": "branch", 	"args": [["<roll>", "<", 2],  
 																									{"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, 
