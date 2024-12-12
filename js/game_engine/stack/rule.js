@@ -1,11 +1,11 @@
 class Rule {
-	id 					= undefined;
+	id 				= undefined;
 	rule_idx		= undefined;
 
-	process_idx = undefined;
-	parent_idx	= undefined;
+	process_idx 	= undefined;
+	parent_idx		= undefined;
 
-	arguments 	= undefined;
+	arguments 		= undefined;
 	rule_args		= undefined;
 
 	steps 			= undefined;
@@ -15,11 +15,11 @@ class Rule {
 	result 			= undefined;
 	
 	constructor(_id, _steps, _rule_idx, _process_idx, _parent_idx) {
-		this.id 				= _id;
-		this.rule_idx 	= _rule_idx;
+		this.id 			= _id;
+		this.rule_idx 		= _rule_idx;
 
-		this.process_idx = _process_idx;
-		this.parent_idx  = _parent_idx;
+		this.process_idx 	= _process_idx;
+		this.parent_idx  	= _parent_idx;
 
 		this.arguments 		= (Array.isArray(_steps[0])) ? _steps.shift(): [];
 		this.rule_args		= Object.assign({
@@ -27,11 +27,11 @@ class Rule {
 			"parent_process": this.parent_idx
 		}, Object.fromEntries(this.arguments));
 
-		this.steps				= _steps.map((step) => new Step(this.rule_stack_id(), step));
+		this.steps			= _steps.map((step) => new Step(this.rule_stack_id(), step));
 		this.step_keys		= _steps.map((step) => step.id);
 		this.step_idx 		= 0
 
-		this.state 				= State.None;
+		this.state 			= State.None;
 	};
 
 	rule_stack_id = function() {
@@ -192,12 +192,12 @@ class Rule {
 
 	dict = function() {
 		return {
-			"id": 				this.id,
+			"id": 			this.id,
 			"rule_idx": 	this.rule_idx,
-			"steps": 			((this.arguments) ? [Object.entries(this.arguments)] : []) + this.steps.map((step) => step.dict()),
+			"steps": 		((this.arguments) ? [Object.entries(this.arguments)] : []) + this.steps.map((step) => step.dict()),
 			"step_idx":		this.step_idx,
-			"state": 			this.state,
-			"result":			this.result
+			"state": 		this.state,
+			"result":		this.result
 		}
 	};
 };

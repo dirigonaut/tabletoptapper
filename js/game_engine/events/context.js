@@ -7,15 +7,15 @@ class Context {
 	};
 
 	context_id	= undefined;
-	audiences		= undefined;
+	audiences	= undefined;
 
-	filters	= undefined;
+	filters		= undefined;
 	regex		= undefined;
 	bound		= undefined;
 
 	default_target	= undefined;
-	bound_target		= undefined;
-	controllers			= undefined;
+	bound_target	= undefined;
+	controllers		= undefined;
 
 	constructor(_context_id, _filters=[], _audiences=[], _bound=[]) {
 		this.context_id 		= _context_id;
@@ -23,12 +23,12 @@ class Context {
 		let deserialize 		= function([_id, _a]) { return [_id, this.add_audience(...Audience.Dict_To_Args(_a))]; }.bind(this);
 		this.audiences			= Object.fromEntries(_audiences.map(deserialize));
 
-		this.filters				= _filters;
-		this.regex					= _filters.map((_f) => RegExp(_f) );
-		this.bound					= _bound;
+		this.filters			= _filters;
+		this.regex				= _filters.map((_f) => RegExp(_f) );
+		this.bound				= _bound;
 		this.controllers		= {};
 
-		this.default_target	= new EventTarget();
+		this.default_target		= new EventTarget();
 		this.bound_target		= new EventTarget();
 	};
 

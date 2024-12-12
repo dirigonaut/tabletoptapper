@@ -47,8 +47,8 @@ const logger = Object({
 	},
 
 	error:	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Error,	_caller, _text, _args, _pretty, _template_id) },
-	warn: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Warn,		_caller, _text, _args, _pretty, _template_id) },
-	func: 	function(_caller, _text, _args=null, _pretty=false, _template_id="func") 	 	{ this._main(Level_Enum.Func, 	_caller, _text, _args, _pretty, _template_id) },
-	log: 		function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Log,		_caller, _text, _args, _pretty, _template_id) },
+	warn: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Warn,	_caller, _text, _args, _pretty, _template_id) },
+	func: 	function(_caller, _text, _args=null, _pretty=false, _template_id="func") 	 { this._main(Level_Enum.Func, 	_caller, _text, _args, _pretty, _template_id) },
+	log: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Log,	_caller, _text, _args, _pretty, _template_id) },
 	debug: 	function(_caller, _text, _args=null, _pretty=false, _template_id="default") { this._main(Level_Enum.Debug,	_caller, _text, _args, _pretty, _template_id) },
 });

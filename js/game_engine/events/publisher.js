@@ -1,7 +1,7 @@
 const Event_Key = "event";
 
 class Subscriber {
-	target 			= undefined;
+	target 		= undefined;
 	controller  = undefined;
 
 	constructor(_target, _event, _func) {

@@ -3,19 +3,19 @@ const step_regex = /(?<delimited><(?<root>[$\w]+)\.*(?<path>[$\.\w]+)*>)/g;
 
 class Step {
 	rule_id			= undefined;
-	id 					= undefined;
+	id 				= undefined;
 	action			= undefined;
 	template		= undefined;
 
-	args				= undefined;
+	args			= undefined;
 	result			= undefined;
-	state				= State.None;
+	state			= State.None;
 
 	process			= undefined;
 
 	constructor(_rule_id, _dict) {
 		this.rule_id	= _rule_id;
-		this.id				= _dict.id;
+		this.id			= _dict.id;
 		this.action		= _dict.action;
 		this.template	= Object.freeze(JSON.parse(JSON.stringify(_dict.args)));
 
@@ -87,10 +87,10 @@ class Step {
 	};
 
 	run = function(_step_results, _step_idx) {
-		if (State.Waiting == this.state) 					{ return this.process; }
+		if (State.Waiting == this.state) 			{ return this.process; }
 		else if (State.Finished == this.state) 		{ return Promise.resolve([`${this.rule_id}-${this.id}`, this.state]); }
 		else if (State.Skipped == this.state) 		{ return Promise.resolve([`${this.rule_id}-${this.id}`, this.state]); }
-		else if (State.Failed == this.state) 			{ return Promise.reject([`${this.rule_id}-${this.id}`, this.state]);  }
+		else if (State.Failed == this.state) 		{ return Promise.reject([`${this.rule_id}-${this.id}`, this.state]);  }
 	
 		return new Promise(function (_resolve, _reject) {//	--------------------------------------------------- Publish Action
 			try {
@@ -210,12 +210,12 @@ class Step {
 	dict = function() {
 		return {
 			"rule_id":	this.rule_id,
-			"id": 			this.id,
-			"action":		this.action,
+			"id": 		this.id,
+			"action":	this.action,
 			"template":	this.template,
-			"args": 		(typeof this.args == "object" && this.args != null) ? JSON.stringify(this.args) : this.args,
+			"args": 	(typeof this.args == "object" && this.args != null) ? JSON.stringify(this.args) : this.args,
 			"result": 	this.result,
-			"state": 		this.state,
+			"state": 	this.state,
 		}
 	};
 };

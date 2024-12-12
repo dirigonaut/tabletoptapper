@@ -11,29 +11,29 @@ class Listener {
 	}
 
 	listener_id 	= undefined;
-	events				= undefined;
+	events			= undefined;
 
 	trigger_regex	= undefined;
 	delete_regex	= undefined;
 	reset_regex		= undefined;
 
-	limit					= undefined;
-	state					= undefined;
+	limit			= undefined;
+	state			= undefined;
 	destructor		= undefined;
 
 	constructor(_listener_id, _events, _limit="*", _state=State.None) {
 		this.set_events(_events);
 
 		this.listener_id 	= _listener_id;
-		this.limit				= (Array.isArray(_limit)) ? _limit : [0, _limit];
-		this.state				= _state;
+		this.limit			= (Array.isArray(_limit)) ? _limit : [0, _limit];
+		this.state			= _state;
 	};
 
 	set_events = function(_events) {
-		this.events					= _events;
+		this.events			= _events;
 		this.trigger_regex 	= (_events[Listener.Event.Trigger]) ? RegExp(_events[Listener.Event.Trigger][Listener.Action.Pattern])	: undefined;
 		this.delete_regex 	= (_events[Listener.Event.Delete]) 	? RegExp(_events[Listener.Event.Delete][Listener.Action.Pattern]) 	: undefined;
-		this.reset_regex 		= (_events[Listener.Event.Reset]) 	? RegExp(_events[Listener.Event.Reset][Listener.Action.Pattern]) 		: undefined;
+		this.reset_regex 	= (_events[Listener.Event.Reset]) 	? RegExp(_events[Listener.Event.Reset][Listener.Action.Pattern]) 		: undefined;
 	};
 
 	wire = function(_target, _options, _deregister_callback) {
@@ -60,7 +60,7 @@ class Listener {
 		return function(_event) {
 			let payload 	= publisher.get_payload_data(_event);
 			let event_id 	= payload[0];
-			let args 			= payload[1];
+			let args 		= payload[1];
 			let resolve 	= payload[2];
 
 			console.log(this.events)
@@ -134,10 +134,10 @@ class Listener {
 
 	dict = function() {
 		return {
-			"listener_id":this.listener_id,
+			"listener_id":	this.listener_id,
 			"events": 		this.events,
-			"limit":			this.limit,
-			"state":			this.state
+			"limit":		this.limit,
+			"state":		this.state
 		}
 	};
 }

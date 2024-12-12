@@ -7,18 +7,18 @@ class Audience {
 	}
 
 	audience_id 	= undefined;
-	events 				= undefined;
+	events 			= undefined;
 
 	start_regex 	= undefined;
 	stop_regex		= undefined;
 	delete_regex	= undefined;
 
-	state					= undefined;
-	listeners			= undefined;
+	state			= undefined;
+	listeners		= undefined;
 
-	target				= undefined;
+	target			= undefined;
 	controller		= undefined;
-	options				= undefined;
+	options			= undefined;
 	destructor		= undefined;
 
 	constructor(_audience_id, _events, _listeners=[], _state=State.None) {
@@ -26,30 +26,30 @@ class Audience {
 
 		this.audience_id 	= _audience_id;
 		
-		this.events				= _events;
+		this.events			= _events;
 		this.start_regex 	= (_events["start"]) 	? RegExp(_events["start"]) 	: undefined;
 		this.stop_regex 	= (_events["stop"]) 	? RegExp(_events["stop"]) 	: undefined;
-		this.delete_regex = (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
+		this.delete_regex 	= (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
 
 		this.listeners		= _listeners.map(deserialize);
-		this.listener_ids = Object.fromEntries(this.listeners.map((_idx, _l) => [_l.listener_id, -this.listeners.length + _idx]));
-		this.state				= _state;
+		this.listener_ids 	= Object.fromEntries(this.listeners.map((_idx, _l) => [_l.listener_id, -this.listeners.length + _idx]));
+		this.state			= _state;
 
-		this.target 			= new EventTarget();
+		this.target 		= new EventTarget();
 
 		if (this.state == State.Waiting) {
 			this.controller 	= new AbortController();
-			this.options			= { signal: this.controller.signal };
-			this.counter			= 0;
+			this.options		= { signal: this.controller.signal };
+			this.counter		= 0;
 		}
 	};
 
 	set_events = function(_events) {
-		this.events				= _events;
+		this.events			= _events;
 
 		this.start_regex 	= (_events["start"]) 	? RegExp(_events["start"]) 	: undefined;
 		this.stop_regex 	= (_events["stop"]) 	? RegExp(_events["stop"]) 	: undefined;
-		this.delete_regex = (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
+		this.delete_regex	= (_events["delete"]) ? RegExp(_events["delete"]) : undefined;
 	};
 
 	register_listener = function(_listener) {
@@ -152,10 +152,10 @@ class Audience {
 				 if (this.start_regex && (this.start_regex.test(event_id))) {
 					logger.log("audience", `${this.audience_id} has found a match for the start event: ${this.start_regex}`);
 
-					this.state 				= State.Waiting;
+					this.state 			= State.Waiting;
 					this.controller 	= new AbortController();
-					this.options			= { signal: this.controller.signal };
-					this.counter 			= 0;
+					this.options		= { signal: this.controller.signal };
+					this.counter 		= 0;
 
 					for (let listener of this.listeners) {
 						listener.wire(this.target, this.options, this.deregister_listener.bind(this));
@@ -178,9 +178,9 @@ class Audience {
 	dict = function() {
 		return {
 			"audience_id":	this.audience_id,
-			"events":				this.events,
-			"listeners":		this.listeners.map((_l) => _l.dict()),
-			"state":				this.state,
+			"events":		this.events,
+			"listeners":	this.listeners.map((_l) => _l.dict()),
+			"state":		this.state,
 		}
 	};
 }
