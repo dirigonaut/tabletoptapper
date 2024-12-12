@@ -13,7 +13,7 @@ TableTopTapper is a language framework built on top of javascript to write table
 At a certain point I kind of had to ask myself, what was I doing creating a programming language to write a game? It was a very interesting exercise and I learned a lot. I do not regret it, but I found myself spending more time making the engine than actually making the game. Why did I cut myself off from the built in debugging tools by creating another abstraction layer on top of javascript? In general it did not lend itself well to a growing scope creep for going fast.
 
 ## Architecture
-![UML](https://github.com/dirigonaut/tabletoptapper/UML.jpg "uml")
+![UML](https://github.com/dirigonaut/tabletoptapper/uml.jpg "uml")
 
 
 ## License
