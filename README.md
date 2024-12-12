@@ -75,11 +75,9 @@ Operation Logic:
       - Else run the second command
     - If either commands are null and their condition triggers then it just passes through
     - EX: 
-		```
-		{"id": "die", 		"action": "branch", 	"args": [["<roll>", "<", 2],  
-			{"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, 
-			{"action":"resolve", "args":["<die>"]}]}
-		```
+		```{"id": "die", "action": "branch", "args": [["<roll>", "<", 2],
+			 {"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, 
+			 {"action":"resolve", "args":["<die>"]}]}```
 	- loop
 		- It is a looping function call
 			- It will call a rule for every entry in a collection passed to it
