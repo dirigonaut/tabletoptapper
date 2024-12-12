@@ -110,19 +110,6 @@ const stack = Object({
 
 		return rule_ids;
 	},
-	
-	trigger: function(_event_id, _conditional, _injectable, _args) {
-		publisher.subscribe(new EventTarget(), "event", 
-			publisher.pass_through(function(_event_id, _value, _resolve, _reject) {
-				if (_event_id.indexOf(_event_id) == 0) {
-					if (_conditional.length == 0 || ops.math(_conditional[0], _conditional[1], _value)) {
-						let process_id = this.new_process(this.get_process().right_idx);
-						this.inject(_injectable, _args, process_id);
-					}
-				}
-			}, publisher.sub_options())
-		)
-	},
 
 	inject: function(_rule, _data=null, _process=0, _at=0) {
 		logger.func("stack", "stack.inject", arguments);

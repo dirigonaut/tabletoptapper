@@ -48,8 +48,8 @@ rule_1: [
 There is also a special dot notation where if the variable is a complex data object then internal data can be resolved to by pathing to the data with keys/indexes delimioted by ".".
 ```	
 rule_2: [
-	{"id": "var_1", 	"action": "resolve", 		"args": [{"entry": [1]}]},
-	{"id": "roll_p", 	"action": "log", 				"args": ["variable var_1 contains an entry with value: <var_1.entry.0>"]},
+	{"id": "var_1", "action": "resolve", "args": [{"entry": [1]}]},
+	{"id": "roll_p", "action": "log", "args": ["variable var_1 contains an entry with value: <var_1.entry.0>"]},
 ],
 ```
 
@@ -108,12 +108,33 @@ Operation Logic:
       - Else run the second command
     - If either commands are null and their condition triggers then it just passes through
     - EX: ``` {"id": "die", "action": "branch", "args": [["<roll>", "<", 2], {"action":"inject", "args":["dice.usage.fail", ["<die>", "<die_path>", 2]]}, {"action":"resolve", "args":["<die>"]}]}```
-- loop
+- loop:
   - It is a looping function call
     - It will call a rule for every entry in a collection passed to it
     - The keyword ```$idx$``` will be resolved to the element value at each pass as it loops through the collection calling the rule with it
     - Other hardcoded values or variables can be passed in as well
 		- EX: ```	{"id": "skills", "action": "loop", "args": ["character.attributes.stats.get.total", "<keys>", ["<party>", "<char_idx>", "$idx$", null]]}```
+- inject:
+  - This basically calling a method. It is injected into the front of the default process unless othereise specified.
+	  - It takes a name of a rule using dot notation if it is nested
+		- Which is followed by an array of args it is to be called with
+		- If the called rule has a returned result then the step will store that value in the id named variable
+		- EX: ``` {"id": "results", "action": "inject", "args": ["traverse.move.direction", ["<direct>"]]} ```
+- template:
+  - This underpins any branch/loop/inject call as it is the logic to copy the rule from the data source and pass in all arguments
+	  - It will validate the required amount of args are provided
+	  - It will clone the Rule json and inject the passed in args
+		- It returns the rule id and the parsed json Rule
+	- You could call it yourself if you really wanted to but that is more of a left over feature before inject/loop/branch were made to resolve to it on their own.
+- return:
+  - This is a pass through call to a Process>Rule to end the Rule exectution and set the end Rule output
+		- Aka: Returning values from a function
+	- EX: ``` {"id": "null", "action": "return", "args": ["<variable>"]} ```
+- step_result:
+
+- var_sub:
+- goto:
+
 
 ## License
 MIT NON-AI License
